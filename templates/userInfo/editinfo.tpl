@@ -2,56 +2,99 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../../css/common/reset.css">
-  <link rel="stylesheet" href="../../css/userinfo/editinfo.min.css">
-  <script src="../../js/flexible.min.js"></script>
-  <title>ÁºñËæëËµÑÊñô</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/common/reset.css">
+    <link rel="stylesheet" href="/public/css/userinfo/editinfo.min.css">
+
+    <script src="/public/js/flexible.min.js"></script>
+    <title>±‡º≠◊ ¡œ</title>
 </head>
 
 <body>
-  <div id="user">
+<div id="user">
     <div class="form-item">
-      <div class="form-text">Â§¥ÂÉè</div>
-      <div class="form-inp">
-        <img class="fi_image" src="../../images/userInfo/icon-avatar.png" alt="">
-        <input type="file" class="fi-avatar__file" id="upload_avatar">
-      </div>
+        <div class="form-text">Õ∑œÒ</div>
+        <div class="form-inp">
+            <img class="fi_image" src="/public/images/userInfo/icon-avatar.png" alt="">
+            <input type="file" class="fi-avatar__file" id="upload_avatar">
+        </div>
     </div>
     <div class="form-item">
-      <div class="form-text">ÊòµÁß∞</div>
-      <div class="form-inp">
-        <input class="fi-text" type="text" value="‰∏≠‰øÑÊ∑∑Ë°ÄÂÑø">
-      </div>
+        <div class="form-text">Í«≥∆</div>
+        <div class="form-inp">
+            <input class="fi-text" type="text" value="÷–∂ÌªÏ—™∂˘">
+        </div>
     </div>
     <div class="form-item">
-      <div class="form-text">Êî∂Ê¨æ‰∫åÁª¥Á†Å</div>
-      <!-- Â∑≤‰∏ä‰º†Êî∂Ê¨æ‰∫åÁª¥Á†Å -->
-      <div class="form-inp">
-        <i class="icon-qrcode" id="show_modal"></i>
-        <i class="icon-right"></i>
-      </div>
-      <!-- Êú™‰∏ä‰º†Êî∂Ê¨æ‰∫åÁª¥Á†Å -->
-      <!-- <div class="form-inp">
-          <p class="fi-upload__p">ËØ∑Â∞ΩÂø´‰∏ä‰º†</p>
-          <i class="icon-right"></i>
-          <input class="fi-qrcode__file" type="file" id="upload_qrcode">
-      </div> -->
+        <{if $qrcode neq ""}>
+        <div class="form-text"> ’øÓ∂˛Œ¨¬Î</div>
+        <!-- “—…œ¥´ ’øÓ∂˛Œ¨¬Î -->
+        <div class="form-inp">
+            <i class="icon-qrcode" id="show_modal"></i>
+            <i class="icon-right"></i>
+        </div>
+        <{else}>
+        <!-- Œ¥…œ¥´ ’øÓ∂˛Œ¨¬Î -->
+        <div class="form-inp">
+            <p class="fi-upload__p">«Îæ°øÏ…œ¥´</p>
+            <i class="icon-right"></i>
+            <input class="fi-qrcode__file" type="file" id="upload_qrcode">
+        </div>
+        <{/if}>
     </div>
-  </div>
+</div>
 
-  <div class="modal">
+<div class="modal">
     <div class="mask close_modal"></div>
     <div class="content">
-      <!-- Â¶ÇÊûú‰ΩøÁî®‰∏ä‰º†Êèí‰ª∂ËØ∑‰∏∫imgÊ†áÁ≠æÂä†‰∏ä  -->
-      <img class="c-rqcode__img" src="../../images/userInfo/test-qrcode.png" alt="">
-      <p class="c-text__p">Êõ¥ÊîπÊî∂Èí±‰∫åÁª¥Á†Å</p>
+        <!-- »Áπ˚ π”√…œ¥´≤Âº˛«ÎŒ™img±Í«©º”…œ  -->
+        <img class="c-rqcode__img" src="<{$qrcode}>" alt="">
+        <p class="c-text__p">
+            <a href="javascript:void(0)" onclick="uploadPhoto()">∏¸∏ƒ ’«Æ∂˛Œ¨¬Î</a>
+            <input type="file" id="photoFile" style="display: none;" onchange="upload()">
+            <img id="preview_photo" src="" width="200px" height="200px">
+        </p>
     </div>
-  </div>
+</div>
 </body>
 
-<script src="../../js/jquery.min.2.1.1.js"></script>
-<script src="../../js/common.js"></script>
+<script src="/public/js/jquery.min.2.1.1.js"></script>
+<script src="/public/js/common.js"></script>
+<script>
+    function uploadPhoto() {
+        $("#photoFile").click();
+    }
+
+    /**
+     * …œ¥´Õº∆¨
+     */
+    function upload() {
+        if ($("#photoFile").val() == '') {
+            return;
+        }
+        var formData = new FormData();
+        formData.append('pic', document.getElementById('photoFile').files[0]);
+        $.ajax({
+            url:"http://m.evyun.cn:12701/Frontend/Web/UUUploadPic?username=wolaiceshi&zz_userid=248478&zz_shellCode=%242y%2410%24o4IkxfHsJegI8aazuMrvOOme4m4xsGmSsBV9a32p1Trlk6aCXoUO6&zz_shellTime=5dcce893b0326&name=pic&type=1",
+            type:"post",
+            dataType: "json",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if (data.code == 200) {
+                    $(".c-rqcode__img").attr("src", data.data.path);
+                    $("#productImg").val(data.data.path);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error:function(data) {
+                alert("…œ¥´ ß∞‹")
+            }
+        });
+    }
+</script>
 </html>

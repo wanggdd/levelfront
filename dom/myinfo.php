@@ -5,3 +5,10 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 $userid = USER_USER_ID;
 $username = USER_USER_NAME;
 $avatar = USER_USER_HEAD_PIC;
+
+use Model\WebPlugin\Model_Member;
+
+$qrcode = '/public/images/userInfo/test-qrcode.png';
+$smarty->assign('zz_user_info', $zz_user_info);
+$smarty->assign('qrcode',$qrcode);
+$smarty->display('userinfo/editinfo.tpl');
