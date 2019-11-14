@@ -10,9 +10,9 @@ define("HOME_URL", '/'); // 首页地址
 $zz_userid = isset($_REQUEST['zz_userid']) ? (int)$_REQUEST['zz_userid'] : 0;
 
 $zz_user_info = [];
-if ($zz_userid) {
+//if ($zz_userid) {
     $zz_user_info = [
-        'id'         => '248478',
+        'id'         => '1',
         'user_name'  => 'wolaiceshi',
         'nick_name'  => '昵称',
         'pic'        => '头像',
@@ -27,4 +27,5 @@ if ($zz_userid) {
     define('USER_USER_NAME', $zz_user_info['user_name']); // 网站下用户的用户名
     define('USER_USER_NICK_NAME', $zz_user_info['user_user_nick_name']);
     define('USER_USER_HEAD_PIC', $zz_user_info['user_user_head_pic']); // 用户头像
-}
+//}
+//var_dump($zz_user_info);
