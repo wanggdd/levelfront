@@ -2,34 +2,34 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../../css/common/reset.css">
-  <link rel="stylesheet" href="../../css/other/await.min.css">
-  <script src="../../js/flexible.min.js"></script>
-  <title>å¾…åŠžä»»åŠ¡</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/common/reset.css">
+    <link rel="stylesheet" href="/public/css/other/await.min.css">
+    <script src="/public/js/flexible.min.js"></script>
+    <title>´ý°ìÈÎÎñ</title>
 </head>
 
 <body>
-  <div id="await">
+<div id="await">
     <div class="form-item">
-      <div class="form-text">å¾…æ‰“æ¬¾</div>
-      <!-- å·²ä¸Šä¼ æ”¶æ¬¾äºŒç»´ç  -->
-      <div class="form-inp">
-        <span>15</span>
-        <i class="icon-right"></i>
-      </div>
+        <div class="form-text">´ý´ò¿î</div>
+        <!-- ÒÑÉÏ´«ÊÕ¿î¶þÎ¬Âë -->
+        <div class="form-inp">
+            <span><{$pay_record}></span>
+            <i class="icon-right"></i>
+        </div>
     </div>
     <div class="form-item">
-      <div class="form-text">å¾…æ”¶æ¬¾</div>
-      <!-- å·²ä¸Šä¼ æ”¶æ¬¾äºŒç»´ç  -->
-      <div class="form-inp">
-        <span>15</span>
-        <i class="icon-right"></i>
-      </div>
+        <div class="form-text">´ýÊÕ¿î</div>
+        <!-- ÒÑÉÏ´«ÊÕ¿î¶þÎ¬Âë -->
+        <div class="form-inp">
+            <span><{$reward_record}></span>
+            <i class="icon-right"></i>
+        </div>
     </div>
-  </div>
+</div>
 </body>
 
 </html>

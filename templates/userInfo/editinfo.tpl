@@ -40,7 +40,7 @@
         <div class="form-inp">
             <p class="fi-upload__p">请尽快上传</p>
             <i class="icon-right"></i>
-            <input class="fi-qrcode__file" type="file" id="upload_qrcode">
+            <input class="fi-qrcode__file" type="file" id="upload_qrcode" onchange="upload_qrcode()">
         </div>
         <{/if}>
     </div>
@@ -62,39 +62,5 @@
 
 <script src="/public/js/jquery.min.2.1.1.js"></script>
 <script src="/public/js/common.js"></script>
-<script>
-    function uploadPhoto() {
-        $("#photoFile").click();
-    }
-
-    /**
-     * 上传图片
-     */
-    function upload() {
-        if ($("#photoFile").val() == '') {
-            return;
-        }
-        var formData = new FormData();
-        formData.append('pic', document.getElementById('photoFile').files[0]);
-        $.ajax({
-            url:"http://m.evyun.cn:12701/Frontend/Web/UUUploadPic?username=wolaiceshi&zz_userid=248478&zz_shellCode=%242y%2410%24o4IkxfHsJegI8aazuMrvOOme4m4xsGmSsBV9a32p1Trlk6aCXoUO6&zz_shellTime=5dcce893b0326&name=pic&type=1",
-            type:"post",
-            dataType: "json",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                if (data.code == 200) {
-                    $(".c-rqcode__img").attr("src", data.data.path);
-                    $("#productImg").val(data.data.path);
-                } else {
-                    alert(data.msg);
-                }
-            },
-            error:function(data) {
-                alert("上传失败")
-            }
-        });
-    }
-</script>
+<script src="/public/js/uploader.js"></script>
 </html>

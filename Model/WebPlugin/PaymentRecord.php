@@ -40,4 +40,25 @@ class Model_PaymentRecord extends \Model
         $obj->addAndWhere('id='.$id);
         return $obj->query(false);
     }
+
+    public static function getActRecord($user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('payment_record p');
+        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('payment_type=2');
+        return $obj->count();
+    }
+
+    /**
+     * 获取用户待打款或代收款记录集合
+     * @param $user_id
+     * @param int $status
+     */
+    public static function getWaitPayRecord($user_id,$status=0){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('payment_record p');
+        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('status='.$status);
+        return $obj->count();
+    }
 }

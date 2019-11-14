@@ -2,13 +2,13 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
-$userid = USER_USER_ID;
+$userid = 1;
 $username = USER_USER_NAME;
 $avatar = USER_USER_HEAD_PIC;
 
 use Model\WebPlugin\Model_Member;
-
-$qrcode = '/public/images/userInfo/test-qrcode.png';
+$zz_user_info = Model_Member::getMemberByUser($userid);
+$qrcode = $zz_user_info?$zz_user_info[0]['payment_code']:'';
 $smarty->assign('zz_user_info', $zz_user_info);
 $smarty->assign('qrcode',$qrcode);
 $smarty->display('userinfo/editinfo.tpl');
