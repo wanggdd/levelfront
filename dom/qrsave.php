@@ -7,7 +7,7 @@ $username = USER_USER_NAME;
 $avatar = USER_USER_HEAD_PIC;
 
 use Model\WebPlugin\Model_Member;
-$userid = 1;
+
 $qrcode = $_POST['qrcode'];
 $member_info = Model_Member::getMemberByUser($userid);
 if(!$member_info){

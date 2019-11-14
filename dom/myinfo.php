@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
-$userid = 1;
+$userid = $zz_userid;
 $username = USER_USER_NAME;
 $avatar = USER_USER_HEAD_PIC;
 
