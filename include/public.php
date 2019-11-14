@@ -1,31 +1,37 @@
 <?php
 
-define('USER_ID', 248987); // ç”¨æˆ·id
-define('USER_NAME', 'wolaiceshi'); // ç”¨æˆ·å
-define('AGENT_ID', 0); // ä»£ç†å•†id
-define('SITE_VIP', 1); // 0 å…è´¹ç”¨æˆ· 1 ä»˜è´¹ç”¨æˆ·
+define('USER_ID', 248987); // ÓÃ»§id
+define('USER_NAME', 'wolaiceshi'); // ÓÃ»§Ãû
+define('AGENT_ID', 0); // ´úÀíÉÌid
+define('SITE_VIP', 1); // 0 Ãâ·ÑÓÃ»§ 1 ¸¶·ÑÓÃ»§
 define('IP', trim(getIP2()));
-define("HOME_URL", '/'); // é¦–é¡µåœ°å€
+define("HOME_URL", '/'); // Ê×Ò³µØÖ·
 
 $zz_userid = isset($_REQUEST['zz_userid']) ? (int)$_REQUEST['zz_userid'] : 0;
 
 $zz_user_info = [];
-//if ($zz_userid) {
+if ($zz_userid) {
     $zz_user_info = [
         'id'         => '1',
         'user_name'  => 'wolaiceshi',
-        'nick_name'  => 'æ˜µç§°',
-        'pic'        => 'å¤´åƒ',
-        'input_time' => '2009-11-04 10:19:58', // æ³¨å†Œæ—¶é—´
-        'mobile'     => '1111111111111', // æ‰‹æœºå·
+        'nick_name'  => 'ÖĞÓ¢»ìÑª¶ù',
+        'pic'        => '',
+        'input_time' => '2009-11-04 10:19:58', // ×¢²áÊ±¼ä
+        'mobile'     => '1111111111111', // ÊÖ»úºÅ
     ];
 
     $zz_user_info['user_user_nick_name'] = $zz_user_info['nick_name'] ? $zz_user_info['nick_name'] : $zz_user_info['user_name'];
     $zz_user_info['user_user_head_pic']  = $zz_user_info['pic'] ? $zz_user_info['pic'] : 'http://aimg8.dlszyht.net.cn/default/user_user_profile.jpg';
 
-    define('USER_USER_ID', $zz_user_info['id']); // ç½‘ç«™ç”¨æˆ·id
-    define('USER_USER_NAME', $zz_user_info['user_name']); // ç½‘ç«™ä¸‹ç”¨æˆ·çš„ç”¨æˆ·å
+    define('USER_USER_ID', $zz_user_info['id']); // ÍøÕ¾ÓÃ»§id
+    define('USER_USER_NAME', $zz_user_info['user_name']); // ÍøÕ¾ÏÂÓÃ»§µÄÓÃ»§Ãû
     define('USER_USER_NICK_NAME', $zz_user_info['user_user_nick_name']);
-    define('USER_USER_HEAD_PIC', $zz_user_info['user_user_head_pic']); // ç”¨æˆ·å¤´åƒ
-//}
-//var_dump($zz_user_info);
+    define('USER_USER_HEAD_PIC', $zz_user_info['user_user_head_pic']); // ÓÃ»§Í·Ïñ
+}
+
+use Model\WebPlugin\Model_Member;
+
+//»ñÈ¡member±íĞÅÏ¢
+$member = Model_Member::getMemberByUser(USER_USER_ID);
+$current_member = $member[0];
+//var_dump($current_member);exit;
