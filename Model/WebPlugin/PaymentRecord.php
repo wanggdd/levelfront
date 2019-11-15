@@ -49,9 +49,22 @@ class Model_PaymentRecord extends \Model
     public static function getActRecord($user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
-        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('out_member='.$user_id);
         $obj->addAndWhere('payment_type=2');
         return $obj->count();
+    }
+
+    /**
+     * 保存收付款记录凭证
+     * @param $user_id
+     * @param $evidence
+     * @param string $type  out|enter 打款|收款
+     * @return mixed
+     */
+    public static function saveEvidence($id,$evidence,$type='out'){
+
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        return $obj->update('member s',['payment_voucher'=>$evidence],'id='.$id);
     }
 
     /**
@@ -62,7 +75,7 @@ class Model_PaymentRecord extends \Model
     public static function getWaitPayRecord($user_id,$status=0){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
-        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('enter_member='.$user_id);
         $obj->addAndWhere('status='.$status);
         return $obj->count();
     }
