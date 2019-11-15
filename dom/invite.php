@@ -33,15 +33,18 @@ if(!$invite_code){
         $res = json_decode($content,true);
         if($res&&$res['status']=='200'){ //二维码获取成功更新到数据中
             $img = $res['list']['returnUrl'];
+            $invite_code = $img;
             $status = Model_Member::updateQrcode($zz_userid,$img,'share');
             if(!$status){  //保存失败的错误处理
                 //todo
             }
+
         }
 
     }
 
 }
 
-
+$smarty->assign('invite_code',$invite_code);
+$smarty->display('other/share.tpl');
 
