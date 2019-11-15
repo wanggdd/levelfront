@@ -26,4 +26,20 @@ class Model_Member extends \Model
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         return $obj->update('member s',[$field=>$qrcode],'user_user_id='.$uid);
     }
+
+    public static function getLowerListAndCount($user_id = 0){
+        if(!$user_id)
+            return false;
+
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('member s');
+        $obj->addAndWhere('higher_id='.$user_id);
+
+        $record = $obj->query(false);
+
+        $count = $obj->count();
+
+        return array('record'=>$record,'count'=>$count);
+    }
+
 }

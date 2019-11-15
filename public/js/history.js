@@ -1,60 +1,70 @@
 $(function () {
 
-  toggleTab('.tab-item');
-  toggleDate('.time-tab-item');
+    toggleTab('.tab-item');
+    toggleDate('.time-tab-item');
 
 
 
-  //  tab content éšåŠ¨
-  function toggleTab(ele) {
-    $(ele).on("click", function () {
-      const t = $(this);
-      const index = t.index();
-      t.addClass("active").siblings().removeClass('active');
-      $(".list").eq(index).addClass("active").siblings().removeClass("active");
-    })
-  }
-  function toggleDate(ele) {
-    $(ele).on("click", function () {
-      $(this).addClass("active").siblings().removeClass('active');
-    })
-  }
-  // æ˜¾ç¤ºæ—¶é—´é€‰æ‹©å™¨
-  var monthArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-  var yearArr = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'];
-  var monthSelect = new MobileSelect({
-    trigger: '#show_month',
-    wheels: [
+    //  tab content Ëæ¶¯
+    function toggleTab(ele) {
+        $(ele).on("click", function () {
+            const t = $(this);
+            const index = t.index();
+            t.addClass("active").siblings().removeClass('active');
+            $(".list").eq(index).addClass("active").siblings().removeClass("active");
+        })
+    }
+    function toggleDate(ele) {
+        $(ele).on("click", function () {
+            $(this).addClass("active").siblings().removeClass('active');
+        })
+    }
+    // ÏÔÊ¾Ê±¼äÑ¡ÔñÆ÷
+    var monthArr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    var yearArr = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022'];
+    var monthSelect = new MobileSelect({
+        trigger: '#show_month',
+        wheels: [
             { data: yearArr },
             { data: monthArr },
-    ],
-    position: [4,2], //åˆå§‹åŒ–å®šä½ æ‰“å¼€æ—¶é»˜è®¤é€‰ä¸­çš„å“ªä¸ª å¦‚æœä¸å¡«é»˜è®¤ä¸º0
-    transitionEnd: function (indexArr, data) {
-      // æ»šåŠ¨æ—¶è§¦å‘
-    },
-    callback: function (indexArr, data) {
-      console.log(data)
-      $("#show_month").text('æŒ‰æœˆ');
-      $(".time-year").text(data[0]);
-      $(".time-month").text(data[1]);
-    }
-  });
+        ],
+        position: [4,2], //³õÊ¼»¯¶¨Î» ´ò¿ªÊ±Ä¬ÈÏÑ¡ÖĞµÄÄÄ¸ö Èç¹û²»ÌîÄ¬ÈÏÎª0
+        transitionEnd: function (indexArr, data) {
+            // ¹ö¶¯Ê±´¥·¢
+        },
+        callback: function (indexArr, data) {
+            console.log(data)
+            $("#show_month").text('°´ÔÂ');
+            $(".time-year").text(data[0]);
+            $(".time-month").text(data[1]);
 
-  var yearSelect = new MobileSelect({
-    trigger: '#show_year',
-    wheels: [
+            //Ìá½»php
+            $("#form_year").val(data[0]);
+            $("#form_month").val(data[1]);
+            $("#time_form").submit();
+        }
+    });
+
+    var yearSelect = new MobileSelect({
+        trigger: '#show_year',
+        wheels: [
             { data: yearArr }
-    ],
-    position: [4], //åˆå§‹åŒ–å®šä½ æ‰“å¼€æ—¶é»˜è®¤é€‰ä¸­çš„å“ªä¸ª å¦‚æœä¸å¡«é»˜è®¤ä¸º0
-    transitionEnd: function (indexArr, data) {
-      // æ»šåŠ¨æ—¶è§¦å‘
-    },
-    callback: function (indexArr, data) {
-      console.log(data)
-      $("#show_year").text('æŒ‰å¹´');
-      $(".time-year").text(data[0]);
-      $(".time-month").text(data[1]);
-    }
-  });
+        ],
+        position: [4], //³õÊ¼»¯¶¨Î» ´ò¿ªÊ±Ä¬ÈÏÑ¡ÖĞµÄÄÄ¸ö Èç¹û²»ÌîÄ¬ÈÏÎª0
+        transitionEnd: function (indexArr, data) {
+            // ¹ö¶¯Ê±´¥·¢
+        },
+        callback: function (indexArr, data) {
+            console.log(data)
+            $("#show_year").text('°´Äê');
+            $(".time-year").text(data[0]);
+            $(".time-month").text($('#form_month').val());
+
+            //Ìá½»php
+            $("#form_year").val(data[0]);
+            $("#form_month").val($('#form_month').val());
+            $("#time_form").submit();
+        }
+    });
 
 })
