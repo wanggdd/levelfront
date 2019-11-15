@@ -8,44 +8,44 @@
   <link rel="stylesheet" href="../../css/common/reset.css">
   <link rel="stylesheet" href="../../css/pay/await_list.min.css">
   <script src="../../js/flexible.min.js"></script>
-  <title>Е╬┘Ф┴⌠Ф╛╬</title>
+  <title>╢Щ╢Р©Н</title>
 </head>
 
 <body>
-  <div id="pay">
-    <ul class="list">
-      <li class="item">
-        <div class="title">
-          <div class="name">Е█┤Г╨╖B1Д╩╩Е┼║</div>
-          <div class="status">Е╬┘Ф┴⌠Ф╛╬</div>
-        </div>
-        <div class="desc">
-          <p>Ф┴⌠Ф╛╬Г╩≥Е╟▐Х▀╧Ф·°</p>
-          <p>Д╩╩Е┼║Д╦▀Х╬╬Ф≈╤И≈╢О╪ 2019-10-23</p>
-        </div>
-      </li>
-      <li class="item">
-          <div class="title">
-            <div class="name">Е█┤Г╨╖B1Д╩╩Е┼║</div>
-            <div class="status">Е╥╡Ф┴⌠Ф╛╬Е╬┘Ф■╤Ф╛╬</div>
-          </div>
-          <div class="desc">
-            <p>Ф┴⌠Ф╛╬Г╩≥Е╟▐Х▀╧Ф·°</p>
-            <p>Д╩╩Е┼║Д╦▀Х╬╬Ф≈╤И≈╢О╪ 2019-10-23</p>
-          </div>
-        </li>
-        <li class="item">
-            <div class="title">
-              <div class="name">Е█┤Г╨╖B1Д╩╩Е┼║</div>
-              <div class="status">Е╥╡Ф▀▓Г╩²</div>
-            </div>
-            <div class="desc">
-              <p>Ф┴⌠Ф╛╬Г╩≥Е╟▐Х▀╧Ф·°</p>
-              <p>Д╩╩Е┼║Д╦▀Х╬╬Ф≈╤И≈╢О╪ 2019-10-23</p>
-            </div>
-          </li>
-    </ul>
-  </div>
+<div id="pay">
+  <ul class="list">
+    <li class="item">
+      <div class="title">
+        <div class="name">иЩ╪╤B1хннЯ</div>
+        <div class="status">╢Щ╢Р©Н</div>
+      </div>
+      <div class="desc">
+        <p>╢Р©Н╦Ьп║ф╩╧Ш</p>
+        <p>хннЯоб╢Ой╠╪Дё╨2019-10-23</p>
+      </div>
+    </li>
+    <li class="item">
+      <div class="title">
+        <div class="name">иЩ╪╤B1хннЯ</div>
+        <div class="status">ря╢Р©Н╢Щйу©Н</div>
+      </div>
+      <div class="desc">
+        <p>╢Р©Н╦Ьп║ф╩╧Ш</p>
+        <p>хннЯоб╢Ой╠╪Дё╨2019-10-23</p>
+      </div>
+    </li>
+    <li class="item">
+      <div class="title">
+        <div class="name">иЩ╪╤B1хннЯ</div>
+        <div class="status">ря╬э╬Ь</div>
+      </div>
+      <div class="desc">
+        <p>╢Р©Н╦Ьп║ф╩╧Ш</p>
+        <p>хннЯоб╢Ой╠╪Дё╨2019-10-23</p>
+      </div>
+    </li>
+  </ul>
+</div>
 </body>
 
 <script src="../../js/jquery.min.2.1.1.js"></script>
