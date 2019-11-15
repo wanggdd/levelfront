@@ -1,7 +1,7 @@
 <?php
 //ÎÒµÄ
-include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/setting.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/include/public.php';
 
 use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_Grade;

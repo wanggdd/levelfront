@@ -13,10 +13,7 @@
 </head>
 
 <body>
-<div class="title-bar">
-    <i class="icon-back"></i>
-    <span class="title-bar-text">·µ»Ø</span>
-</div>
+<{include file='../commond/left.tpl'}>
 <div id="pay">
     <ul class="list">
         <{if $record_info}>

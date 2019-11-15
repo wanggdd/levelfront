@@ -13,7 +13,7 @@
 </head>
 
 <body>
-
+<{include file='../commond/left.tpl'}>
 <div id="history">
     <form name="time_form" id="time_form" method="post" action="">
     <div class="top-bar">
@@ -63,7 +63,7 @@
             <div class="list">
                 <{if $enter_record}>
                     <{foreach key=key item=item from=$enter_record}>
-                    <div class="item"onclick="window.open('/dom/enter.php?id=<{$item.id}>')">
+                    <div class="item"onclick="window.open('/dom/NineFenXiao/enter.php?id=<{$item.id}>')">
                         <div class="avatar">
                             <img class="avatar__img" src="<{$item.pic}>" alt="">
                         </div>

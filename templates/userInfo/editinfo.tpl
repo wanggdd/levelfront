@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<{include file='../commond/left.tpl'}>
 <div id="user">
     <div class="form-item">
         <div class="form-text">Í·Ïñ</div>
