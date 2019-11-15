@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../../css/common/reset.css">
-  <link rel="stylesheet" href="../../css/other/share.min.css">
-  <script src="../../js/flexible.min.js"></script>
-  <title>é‚€è¯·å¥½å‹</title>
+  <link rel="stylesheet" href="/public/css/common/reset.css">
+  <link rel="stylesheet" href="/public/css/other/share.min.css">
+  <script src="/public/js/flexible.min.js"></script>
+  <title>ÑûÇëºÃÓÑ</title>
 </head>
 <body>
-  <div id="share">
-    <div class="content">
-      <img src="../../images/userInfo/test-qrcode.png" alt="">
-      <p>è¯†åˆ«äºŒç»´ç </p>
-      <p>å³å¯æ³¨å†Œæˆä¸ºå°Šäº«ä¼šå‘˜ï¼Œäº«æ›´å¤šç¦åˆ©</p>
-    </div>
-    <div class="hint">é•¿æŒ‰ä¿å­˜å›¾ç‰‡</div>
+<div id="share">
+  <div class="content">
+    <img src="/public/images/userInfo/test-qrcode.png" alt="">
+    <p>Ê¶±ð¶þÎ¬Âë</p>
+    <p>¼´¿É×¢²á³ÉÎª×ðÏí»áÔ±£¬Ïí¸ü¶à¸£Àû</p>
   </div>
+  <div class="hint">³¤°´±£´æÍ¼Æ¬</div>
+</div>
 </body>
 </html>
