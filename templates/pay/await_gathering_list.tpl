@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/common/reset.css">
     <link rel="stylesheet" href="/public/css/common/test.min.css">
     <link rel="stylesheet" href="/public/css/pay/await_list.min.css">
     <script src="/public/js/flexible.min.js"></script>
@@ -14,7 +15,7 @@
 <body>
 <div class="title-bar">
     <i class="icon-back"></i>
-    <span class="title-bar-text">我是标题</span>
+    <span class="title-bar-text">返回</span>
 </div>
 <div id="pay">
     <ul class="list">
@@ -22,12 +23,12 @@
         <{foreach key=key item=item from=$record_info}>
         <li class="item">
             <div class="title">
-                <div class="name"><{$item.task_note}>升级任务</div>
+                <div class="name"><{$item.task_note}></div>
                 <div class="status"><{$item.status_word}></div>
             </div>
             <div class="desc">
                 <p>打款给<{$nickname}></p>
-
+                <p>上传凭证时间：<{$item.out_time}></p>
             </div>
         </li>
         <{/foreach}>

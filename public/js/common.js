@@ -17,4 +17,9 @@ $(function () {
       $(".modal").fadeOut(200)
     })
   }
+
+  $(".icon-back").on("click", function () {
+      window.history.go(-1);
+  })
+
 })
