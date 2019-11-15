@@ -21,7 +21,7 @@ function upload() {
         success: function(data) {
             if (data.code == 200) {
                 var qrcode_path = data.data.path;
-                $.post("/dom/qrsave.php",{qrcode:data.data.path},function(data,status){
+                $.post("/dom/ninefenxiao/qrsave.php",{qrcode:data.data.path},function(data,status){
                     if(data.status=='success'){
                         $(".c-rqcode__img").attr("src", qrcode_path);
                         $("#productImg").val(qrcode_path);
@@ -57,7 +57,7 @@ function upload_qrcode() {
         success: function(data) {
             if (data.code == 200) {
                 var qrcode_path = data.data.path;
-                $.post("/dom/qrsave.php",{qrcode:data.data.path},function(data,status){
+                $.post("/dom/ninefenxiao/qrsave.php",{qrcode:data.data.path},function(data,status){
                     if(data.status=='success'){
                         window.location.reload();
                     }else{
