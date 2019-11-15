@@ -17,7 +17,6 @@ function cget($url){
 }
 
 //获取member信息
-$zz_userid = 1;
 $memebr = Model_Member::getMemberByUser($zz_userid);
 $invite_code = $memebr[0]['invite_code'];
 //获取user信息

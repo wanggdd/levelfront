@@ -7,7 +7,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
 use Model\WebPlugin\Model_PaymentRecord;
 
-$userid = USER_USER_ID;
+$userid = $zz_userid;
 $nickname = USER_USER_NICK_NAME;
 $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
 $records = Model_PaymentRecord::getRecord($pid);
