@@ -1,8 +1,8 @@
 <?php
 
 //财务中心
-include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/setting.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/include/public.php';
 
 use Model\WebPlugin\Model_PaymentRecord;
 use Model\WebPlugin\Model_User;

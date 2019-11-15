@@ -1,10 +1,11 @@
 <{include file='../commond/head.tpl'}>
 
+<{include file='../commond/left.tpl'}>
 <div id="user">
     <div class="info">
         <div class="avatar">
             <img class="avatar-image" src="<{$zz_user_info.user_user_head_pic}>" alt="">
-            <a href="/dom/myinfo.php?zz_userid=<{$zz_user_info.id}>"><img class="write-image" src="/public/images/userInfo/icon-write.png" alt=""></a>
+            <a href="/dom/NineFenXiao/myinfo.php?zz_userid=<{$zz_user_info.id}>"><img class="write-image" src="/public/images/userInfo/icon-write.png" alt=""></a>
         </div>
         <div class="desc">
             <div class="d-top">
@@ -25,7 +26,7 @@
             <img class="icon-pending" src="/public/images/userInfo/icon-pending.png" alt="">
             <p>我的待办</p>
         </div>
-        <div class="item" οnclick="window.open('/dom/finance.php?zz_user_id=<{$zz_user_info.id}>')">
+        <div class="item" οnclick="window.open('/dom/NineFenXiao/finance.php?zz_user_id=<{$zz_user_info.id}>')">
             <img class="icon-money" src="/public/images/userInfo/icon-money.png" alt="">
             <p>财务中心</p>
         </div>
