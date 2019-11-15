@@ -8,7 +8,7 @@ use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_User;
 use Model\WebPlugin\Model_Grade;
 
-$lower_info = Model_Member::getLowerListAndCount($zz_user_info['id']);
+$lower_info = Model_Member::getLowerListAndCount($zz_userid);
 $lowerList  = $lower_info['record'];
 $count      = $lower_info['count'];
 
