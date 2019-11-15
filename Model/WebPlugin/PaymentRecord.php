@@ -88,6 +88,11 @@ class Model_PaymentRecord extends \Model
         return $obj->update('payment_record p',['status'=>$status,'enter_time'=>time()],'id='.$id);
     }
 
+    public static function updateSet($id,$set){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        return  $obj->update('payment_record p',$set,'id='.$id);
+    }
+
     /**
      * 获取用户待打款或代收款记录集合
      * @param $user_id

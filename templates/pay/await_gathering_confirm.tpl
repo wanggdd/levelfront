@@ -54,7 +54,7 @@
     </div>
 
     <div class="handle-btns">
-        <div class="refuse-btn">拒绝收款</div>
+        <div class="refuse-btn" onclick="location='/dom/ninefenxiao/refuseinfo.php?pid=<{$record.id}>'">拒绝收款</a></div>
         <div class="confirm-btn" id="show_modal">确认收款</div>
     </div>
 </div>

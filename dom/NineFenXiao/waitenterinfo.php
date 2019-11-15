@@ -1,4 +1,7 @@
 <?php
+/*
+ * 代收款与确认收款功能
+ */
 include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
@@ -10,13 +13,14 @@ $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
 $records = Model_PaymentRecord::getRecord($pid);
 $record_info = $records[0];
 if($userid!=$record_info['enter_member']){
-    die('deny');
+
+    die('deny1');
 }
 
 if(!empty($_POST)){
     $pid = $_POST['pid'];
     $type = $_POST['type'];
-    if($type=='confirm'){ //待确认更新为确认
+    if($type=='confirm'){ //待确认更新为确认或者取消
         header('Content-type: application/json');
         $up_status = Model_PaymentRecord::updateStatus($pid,2);
 
@@ -46,6 +50,6 @@ if($record_info['status']==1) {
     $smarty->display('pay/await_gathering_confirm.tpl');
 }else if($record_info['status']==2){
     $smarty->display('pay/gathering_info.tpl');
-}else{
+}else {
     die('deny');
 }

@@ -2,30 +2,41 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../../css/common/reset.css">
-  <link rel="stylesheet" href="../../css/common/pay_info.min.css">
-  <script src="../../js/flexible.min.js"></script>
-  <title>æ‹’ç»æ”¶æ¬¾åŸå› </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/common/reset.css">
+    <link rel="stylesheet" href="/public/css/common/pay_info.min.css">
+    <script src="/public/js/flexible.min.js"></script>
+    <title>¾Ü¾øÊÕ¿îÔ­Òò</title>
 </head>
 
 <body>
-  <div id="pay">
+<div id="pay">
+    <form method="post" id="myform">
     <div class="content-wrapper">
-      <div class="content-box">
-        <div class="title">æ‰“æ¬¾å¤‡æ³¨</div>
-        <div class="content">
-          <textarea class="content__textarea" placeholder="è¯·å¡«å†™å¤‡æ³¨"></textarea>
+        <div class="content-box">
+            <div class="title">¾Ü¾øÔ­Òò</div>
+
+            <div class="content">
+                <input type="hidden" name="pid" value="<{$pid}>">
+                <textarea class="content__textarea" placeholder="ÇëÌîĞ´±¸×¢" name="refuse_reason"></textarea>
+            </div>
         </div>
-      </div>
     </div>
     <div class="handle-btns">
-        <div class="refuse-btn">è¿”å›</div>
-        <div class="confirm-btn">ç¡®è®¤</div>
-      </div>
-  </div>
+        <div class="refuse-btn">·µ»Ø</div>
+        <div class="confirm-btn" onclick="form_submit()">È·ÈÏ</div>
+    </div>
+    </form>
+</div>
 </body>
+<script src="/public/js/jquery.min.2.1.1.js"></script>
+<script>
+    function form_submit(){
+        $("#myform").submit();
+    }
+
+</script>
 
 </html>
