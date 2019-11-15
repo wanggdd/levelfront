@@ -80,7 +80,12 @@ class Model_PaymentRecord extends \Model
     public static function saveEvidence($id,$evidence,$type='out'){
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        return $obj->update('member s',['payment_voucher'=>$evidence],'id='.$id);
+        return $obj->update('payment_record p',['payment_voucher'=>$evidence],'id='.$id);
+    }
+
+    public static function updateStatus($id,$status){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        return $obj->update('payment_record p',['status'=>$status,'enter_time'=>time()],'id='.$id);
     }
 
     /**
