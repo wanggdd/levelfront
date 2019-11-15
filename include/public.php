@@ -1,6 +1,6 @@
 <?php
 
-define('USER_ID', 248987); // 用户id
+define('USER_ID', 1); // 用户id
 define('USER_NAME', 'wolaiceshi'); // 用户名
 define('AGENT_ID', 0); // 代理商id
 define('SITE_VIP', 1); // 0 免费用户 1 付费用户
@@ -12,7 +12,7 @@ $zz_userid = isset($_REQUEST['zz_userid']) ? (int)$_REQUEST['zz_userid'] : 0;
 $zz_user_info = [];
 if ($zz_userid) {
     $zz_user_info = [
-        'id'         => '1',
+        'id'         => '248478',
         'user_name'  => 'wolaiceshi',
         'nick_name'  => '中英混血儿',
         'pic'        => '',

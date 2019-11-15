@@ -36,10 +36,32 @@ class Model_Member extends \Model
         $obj->addAndWhere('higher_id='.$user_id);
 
         $record = $obj->query(false);
-
-        $count = $obj->count();
-
-        return array('record'=>$record,'count'=>$count);
+        if($record){
+            $count = $obj->count();
+            return array('record'=>$record,'count'=>$count);
+        }
+        return fasle;
     }
 
+    public static function getLowerCount($user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('member s');
+        $obj->addAndWhere('higher_id='.$user_id);
+        return $obj->count();
+    }
+
+    //激活 从1-2
+    public static function active($uid){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->update('member s',['status'=>2],'user_user_id='.$uid);
+
+        //查看此会员是否有下级，若有下级需要将下级的状态改为未激活，就可以做邀请下级的任务了
+        $list = self::getLowerListAndCount($uid);
+        if($list){
+            foreach($list['record'] as $key=>$item){
+
+            }
+        }
+
+    }
 }
