@@ -4,6 +4,22 @@ namespace Model\WebPlugin;
 
 class Model_PaymentRecord extends \Model
 {
+
+    //获取待收款列表
+    public static function getWaitEnterList($user_id = 0){
+        if(!$user_id)
+            return false;
+
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('payment_record s');
+
+        $obj->addAndWhere('enter_member='.$user_id);
+        $obj->addAndWhere('status=1');
+        $obj->addOrWhere('status=3');
+
+        return $obj->query(false);
+    }
+
     /*
      * $fileds where条件
      * $enter 打款or收款  默认收款：true

@@ -2,49 +2,37 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/public/css/common/reset.css">
-  <link rel="stylesheet" href="/public/css/pay/await_list.min.css">
-  <script src="/public/js/flexible.min.js"></script>
-  <title>待收款</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/css/common/test.min.css">
+    <link rel="stylesheet" href="/public/css/pay/await_list.min.css">
+    <script src="/public/js/flexible.min.js"></script>
+    <title>���տ�</title>
 </head>
 
 <body>
+<div class="title-bar">
+    <i class="icon-back"></i>
+    <span class="title-bar-text">���Ǳ���</span>
+</div>
 <div id="pay">
-  <ul class="list">
-    <li class="item">
-      <div class="title">
-        <div class="name">升级B1任务</div>
-        <div class="status">待确认收款</div>
-      </div>
-      <div class="desc">
-        <p>打款给小苹果</p>
-        <p>任务下达时间：2019-10-23</p>
-      </div>
-    </li>
-    <li class="item">
-      <div class="title">
-        <div class="name">升级B1任务</div>
-        <div class="status">已拒绝</div>
-      </div>
-      <div class="desc">
-        <p>打款给小苹果</p>
-        <p>任务下达时间：2019-10-23</p>
-      </div>
-    </li>
-    <li class="item">
-      <div class="title">
-        <div class="name">升级B1任务</div>
-        <div class="status">待确认收款</div>
-      </div>
-      <div class="desc">
-        <p>打款给小苹果</p>
-        <p>任务下达时间：2019-10-23</p>
-      </div>
-    </li>
-  </ul>
+    <ul class="list">
+        <{if $record_info}>
+        <{foreach key=key item=item from=$record_info}>
+        <li class="item">
+            <div class="title">
+                <div class="name"><{$item.task_note}>��������</div>
+                <div class="status"><{$item.status_word}></div>
+            </div>
+            <div class="desc">
+                <p>����<{$nickname}></p>
+
+            </div>
+        </li>
+        <{/foreach}>
+        <{/if}>
+    </ul>
 </div>
 </body>
 
