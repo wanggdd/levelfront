@@ -10,7 +10,7 @@ use Model\WebPlugin\Model_User;
 //获取等级
 $grade = Model_Grade::getGradeByGrade($current_member['grade']);
 if($grade){
-    $zz_user_info['grade_title'] = $grade[0]['title'];
+    $zz_user_info['grade_title'] = $grade['title'];
 }else{
     $zz_user_info['grade_title'] = '';
 }

@@ -19,7 +19,7 @@ if($lowerList){
         $lowerList[$key]['pic'] = $user_info[0]['pic'] ? $user_info[0]['pic'] : 'http://aimg8.dlszyht.net.cn/default/user_user_profile.jpg';
 
         $grade = Model_Grade::getGradeByGrade($item['grade']);
-        $lowerList[$key]['grade'] = $grade[0]['title'];
+        $lowerList[$key]['grade'] = $grade['title'];
         $lowerList[$key]['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
     }
 }
