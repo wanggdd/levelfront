@@ -10,7 +10,7 @@ use Model\WebPlugin\Model_PaymentRecord;
 $userid = USER_USER_ID;
 $nickname = USER_USER_NICK_NAME;
 $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
-$records = Model_PaymentRecord::getRecord($pid);
+$records = Model_PaymentRecord::getRecord(array('id'=>$pid));
 $record_info = $records[0];
 if($userid!=$record_info['enter_member']){
     die('deny1');

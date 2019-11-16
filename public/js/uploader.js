@@ -75,3 +75,42 @@ function upload_qrcode() {
         }
     });
 }
+
+/**
+ * 上传打款凭证
+ */
+function upload_voucher() {
+    if ($("#photoFile").val() == '') {
+        return;
+    }
+    var formData = new FormData();
+    formData.append('pic', document.getElementById('photoFile').files[0]);
+    $.ajax({
+        url:"http://m.evyun.cn:12701/Frontend/Web/UUUploadPic?username=wolaiceshi&zz_userid=248478&zz_shellCode=%242y%2410%24o4IkxfHsJegI8aazuMrvOOme4m4xsGmSsBV9a32p1Trlk6aCXoUO6&zz_shellTime=5dcce893b0326&name=pic&type=1",
+        type:"post",
+        dataType: "json",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+            if (data.code == 200) {
+                var qrcode_path = data.data.path;
+                $.post("/dom/ninefenxiao/voucher.php",{qrcode:data.data.path},function(data,status){
+                    if(data.status=='success'){
+                        $(".c-rqcode__img").attr("src", qrcode_path);
+                        $("#productImg").val(qrcode_path);
+                    }else{
+                        alert('上传错误,请重试');
+                    }
+                });
+
+
+            } else {
+                alert(data.msg);
+            }
+        },
+        error:function(data) {
+            alert("上传失败")
+        }
+    });
+}
