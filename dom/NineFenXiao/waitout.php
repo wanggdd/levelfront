@@ -29,9 +29,18 @@ if($status == 1){
             'nick_name'     => $user_info['nick_name'] ? $user_info['nick_name'] : $user_info['user_name'],
             'grade_title'   => '激活任务',
             'promote_money' => $record[0]['promote_money'],
-            'status_title'  => $record[0]['status'] == 1 ? '已打款待收款' : '已拒绝',
             'payment_type'  => 1,
         );
+        if($record[0]['status']==1){
+            $task_list1['status_title'] = '已打款待收款';
+        }else if($record[0]['status']==2){
+            $task_list1 = [];
+        }else if($record[0]['status']==3){
+            $task_list1['status_title'] = '已拒绝';
+        }else{
+            $task_list1 = [];
+        }
+
     }else{
         //上级信息
         $higher_info = Model_User::getUserById($current_member['higher_id']);
@@ -62,9 +71,17 @@ if($status == 1){
             'nick_name'     => $user_info['nick_name'] ? $user_info['nick_name'] : $user_info['user_name'],
             'grade_title'   => '激活任务',
             'promote_money' => $record2[0]['promote_money'],
-            'status_title'  => $record2[0]['status'] == 1 ? '已打款待收款' : '已拒绝',
             'payment_type' => 1
         );
+        if($record2[0]['status']==1){
+            $task_list2['status_title'] = '已打款待收款';
+        }else if($record2[0]['status']==2){
+            $task_list2 = [];
+        }else if($record2[0]['status']==3){
+            $task_list2['status_title'] = '已拒绝';
+        }else{
+            $task_list2 = [];
+        }
     }else{
         $task_model = new Model_Task();
         $task_list2 = $task_model->getNine($uid,$user_id);

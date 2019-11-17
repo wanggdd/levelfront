@@ -30,7 +30,7 @@
         <{/if}>
         <{if $task_list2}>
         <li class="item" <{if $task_list2.record_id}>onclick="location='/dom/NineFenXiao/waitoutactive.php?zz_userid=<{$zz_userid}>&record_id=<{$task_list2.record_id}>';"
-        <{else}> onclick="location='/dom/NineFenXiao/waitoutactive.php?task_grade=2&enter_member=<{$task_list2.enter_member}>&zz_userid=<{$zz_userid}>';"<{/if}>>
+        <{else}> onclick="location='/dom/NineFenXiao/waitoutactive.php?task_grade=2&enter_member=<{$task_list2.enter_member}>&zz_userid=<{$zz_userid}>&promote_money=<{$task_list2.promote_money}>';"<{/if}>>
             <div class="title">
                 <div class="name">º§ªÓ»ŒŒÒ</div>
                 <div class="status"><{$task_list2.status_title}></div>

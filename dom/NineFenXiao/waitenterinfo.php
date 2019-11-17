@@ -24,11 +24,22 @@ if(!empty($_POST)){
     $type = $_POST['type'];
     if($type=='confirm'){ //待确认更新为确认或者取消
         header('Content-type: application/json');
+        $pay_record = Model_PaymentRecord::getRecord(['id'=>$pid]);
+        if(!$pay_record){
+            echo json_encode(['status' => 'fails', 'msg' => 'record fails']);
+            exit;
+        }
+        $pay_record_info = $pay_record[0];
+        $out_uid = $pay_record_info['out_member'];
         $up_status = Model_PaymentRecord::updateStatus($pid,2);
         if($up_status) {
-            $member = Model_Member::getMemberByUser($userid);
+            $act_finish_count = Model_PaymentRecord::getActFinishRecord($out_uid);
+            if($act_finish_count>=2){
+                Model_Member::active($out_uid);
+            }
+            $member = Model_Member::getMemberByUser($out_uid);
             if($member&&$member[0]['status']==2){
-                 Model_Grade::promote($admin_id,$userid);
+                 Model_Grade::promote($admin_id,$out_uid);
             }
 
             echo json_encode(['status' => 'success', 'msg' => '']);
@@ -58,5 +69,5 @@ if($record_info['status']==1) {
 }else if($record_info['status']==2){
     $smarty->display('pay/gathering_info.tpl');
 }else {
-    die('deny');
+    $smarty->display('pay/enterrefuse.tpl');
 }

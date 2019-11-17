@@ -76,6 +76,13 @@ if(isset($_REQUEST['record_id'])){
     }else if($record[0]['status'] == 3) {
         $page_info['refuse_reason']   = $record[0]['refuse_reason'];
         $tpl = 'pay/refuse.tpl';//已经拒绝的
+    }else if($record[0]['status']==2){
+        //（对方）收款信息
+        $record_info = $record[0];
+        $record_info['out_time'] = date('Y-m-d H:i:s',$record_info['out_time']);
+        $record_info['enter_time'] = date('Y-m-d H:i:s',$record_info['enter_time']);
+        $smarty->assign('record',$record_info);
+        $tpl = 'pay/remit_info.tpl';
     }
 
     //$record = Model_PaymentRecord::getRecord(array('out_member'=>$user_id,'payment_type'=>2,'task_grade'=>1));
