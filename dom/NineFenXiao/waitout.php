@@ -35,19 +35,21 @@ if($status == 1){
     }else{
         //上级信息
         $higher_info = Model_User::getUserById($current_member['higher_id']);
-        $higher_info = $higher_info[0];
-        //需给上级打款金额
-        $setting_info = Model_Setting::getSetting($uid);
-        $money = $setting_info['nostate_active_money'];
+        if(isset($higher_info[0])) { //如果有上级才有激活任务
+            $higher_info = $higher_info[0];
+            //需给上级打款金额
+            $setting_info = Model_Setting::getSetting($uid);
+            $money = $setting_info['nostate_active_money'];
 
-        $task_list1 = array(
-            'nick_name' => $higher_info['nick_name'] ? $higher_info['nick_name'] : $higher_info['user_name'],
-            'grade_title'   => '激活任务',
-            'promote_money' => $money,
-            'status_title'  => '待打款',
-            'payment_type'  => 1,
-            'enter_member'  => $current_member['higher_id'],
-        );
+            $task_list1 = array(
+                'nick_name' => $higher_info['nick_name'] ? $higher_info['nick_name'] : $higher_info['user_name'],
+                'grade_title' => '激活任务',
+                'promote_money' => $money,
+                'status_title' => '待打款',
+                'payment_type' => 1,
+                'enter_member' => $current_member['higher_id'],
+            );
+        }
     }
 
     //判断记录表里是否已经生成了给第九层级打款的打款记录
