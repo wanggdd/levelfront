@@ -17,7 +17,7 @@
     <div class="form-item">
         <div class="form-text">Í·Ïñ</div>
         <div class="form-inp">
-            <img class="fi_image" src="/public/images/userInfo/icon-avatar.png" alt="">
+            <img class="fi_image" src="<{$avatar}>" alt="">
             <input type="file" class="fi-avatar__file" id="upload_avatar">
         </div>
     </div>
