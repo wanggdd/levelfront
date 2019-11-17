@@ -62,6 +62,11 @@ class Model_Member extends \Model
         return $obj->count();
     }
 
+    public static function upInfo($fileds,$user_user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        return $obj->update('member s',$fileds,'user_user_id='.$user_user_id);
+    }
+
     //激活 从1-2
     public static function active($uid){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
@@ -71,10 +76,11 @@ class Model_Member extends \Model
         $list = self::getLowerListAndCount($uid);
         if($list){
             foreach($list['record'] as $key=>$item){
-
+                self::upInfo(array('status'=>1),$item['user_user_id']);
             }
         }
 
+        return true;
     }
 
     //通过grade_id查找会员
