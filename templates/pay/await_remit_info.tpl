@@ -5,52 +5,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../../css/common/reset.css">
-  <link rel="stylesheet" href="../../css/common/pay_info.min.css">
-  <script src="../../js/flexible.min.js"></script>
-  <title>å¾…æ‰“æ¬¾</title>
+  <link rel="stylesheet" href="/public/css/common/reset.css">
+  <link rel="stylesheet" href="/public/css/common/pay_info.min.css">
+  <script src="/public/js/flexible.min.js"></script>
+  <title>´ı´ò¿î</title>
 </head>
 
 <body>
-  <div id="pay">
-    <div class="form-group">
-      <div class="form-item">
-        <div class="text">å¾…æ”¶æ¬¾äºº</div>
-        <div class="value">ä¸­ä¿„æ··è¡€å„¿</div>
-      </div>
-      <div class="form-item">
-        <div class="text">å¾…æ‰“æ¬¾é‡‘é¢</div>
-        <div class="value">
-          <i class="letter">Â¥</i>
-          <span class="price">729</span>
-        </div>
+<{include file="../commond/left.tpl"}>
+<form method="post" action="/dom/NineFenXiao/waitoutactive.php?zz_userid=<{$zz_userid}>" name="form1" id="form1">
+<div id="pay">
+  <div class="form-group">
+    <div class="form-item">
+      <div class="text">´ıÊÕ¿îÈË</div>
+      <div class="value"><{$page_info.nick_name}></div>
+    </div>
+    <div class="form-item">
+      <div class="text">´ı´ò¿î½ğ¶î</div>
+      <div class="value">
+        <i class="letter">£¤</i>
+        <span class="price"><{$page_info.promote_money}></span>
       </div>
     </div>
-    <div class="content-wrapper">
-      <div class="content-box">
-        <div class="title">æ”¶æ¬¾äººäºŒç»´ç </div>
-        <div class="content">
-          <img class="content__img" src="../../images/userInfo/test-qrcode.png" alt="">
-        </div>
-      </div>
-      <div class="content-box">
-        <div class="title">ä¸Šä¼ æ‰“æ¬¾è¯æ˜</div>
-        <div class="content">
-          <img class="content__img" src="../../images/pay/icon-add.png" alt="">
-        </div>
-      </div>
-      <div class="content-box">
-        <div class="title">æ‰“æ¬¾å¤‡æ³¨</div>
-        <div class="content">
-          <textarea class="content__textarea" placeholder="è¯·å¡«å†™å¤‡æ³¨"></textarea>
-        </div>
-      </div>
-    </div>
-    <button class="submit-btn center-block" type="button">æäº¤</button>
   </div>
+  <div class="content-wrapper">
+    <div class="content-box">
+      <div class="title">ÊÕ¿îÈË¶şÎ¬Âë</div>
+      <div class="content">
+        <img class="content__img" src="<{$page_info.payment_code}>" alt="">
+      </div>
+    </div>
+    <div class="content-box">
+      <div class="title">ÉÏ´«´ò¿îÖ¤Ã÷</div>
+      <div class="content">
+          <input type="file" id="photoFile" style="display: none;" onchange="upload_voucher()">
+          <img class="c-rqcode__img" src="/public/images/pay/icon-add.png" id="voucher_photo" onclick="uploadPhoto()">
+          <input type="hidden" id="productImg" name="payment_voucher">
+      </div>
+    </div>
+    <div class="content-box">
+      <div class="title">´ò¿î±¸×¢</div>
+      <div class="content">
+        <textarea class="content__textarea" name="payment_note" placeholder="ÇëÌîĞ´±¸×¢"></textarea>
+      </div>
+    </div>
+  </div>
+    <input type="hidden" name="record_id" value="<{$record_id}>">
+    <input type="hidden" name="form_submit" value="1">
+    <input type="hidden" name="task_grade" value="<{$page_info.task_grade}>">
+    <input type="hidden" name="promote_money" value="<{$page_info.promote_money}>">
+    <input type="hidden" name="enter_member" value="<{$page_info.enter_member}>">
+    <button class="submit-btn center-block" type="button" onclick="check_info()">Ìá½»</button>
+</div>
+</form>
+
 </body>
+<script type="text/javascript">
+    function check_info(){
+        var voucher = $('#productImg').val();
 
-<script src="../../js/jquery.min.2.1.1.js"></script>
-<script src="../../js/common.js"></script>
+        if(voucher == ''){
+            alert('ÇëÉÏ´«´ò¿îÆ¾Ö¤');
+            return false;
+        }else{
+            $('#form1').submit();
+        }
+    }
+</script>
 
+<script src="/public/js/jquery.min.2.1.1.js"></script>
+<script src="/public/js/common.js"></script>
+<script src="/public/js/uploader.js"></script>
 </html>

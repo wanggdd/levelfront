@@ -22,6 +22,17 @@ class Model_Grade extends \Model
         return false;
     }
 
+    public static function getGrade($fileds = array()){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+        if($fileds){
+            foreach($fileds as $key=>$item){
+                $obj->addAndWhere($key.'='.$item);
+            }
+        }
+
+        return $obj->query(false);
+    }
     /**
      * 根据会员id，查找是否是初始用户
      * @param $user_id 网站所属人ID
@@ -39,22 +50,32 @@ class Model_Grade extends \Model
     }
 
     //获取最高等级
-    public static function getMaximumGrade($user_id,$user_user_id,$type = 'desc'){
+    public static function getMaximumGrade($user_id,$type = 'desc'){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
-        $obj->addAndWhere('user_id='.$user_id.' and user_user_id='.$user_user_id);
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addOrderBy('grade',$type);
         $obj->setLimiter(0,1);
         $result = $obj->query(false);
-        if($result)
-            return $result[0];
-        return false;
+
+        return $result;
     }
 
     public static function upUserGrade($field,$value,$uid){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
 
         return $obj->update('member s',[$field=>$value],'user_user_id='.$uid);
+    }
+
+    public static function getNextGrade($user_id,$current_grade){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+        $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
+        $obj->addOrderBy('grade','asc');
+        $obj->setLimiter(0,1);
+        $result = $obj->query(false);
+
+        return $result;
     }
 
     /**
@@ -86,7 +107,7 @@ class Model_Grade extends \Model
         }
 
         //判断当前会员是否已经是最高等级
-        $max_grade = self::getMaximumGrade($user_id,$user_user_id);
+        $max_grade = self::getMaximumGrade($user_id);
             /*此数据没有时，说明当前后台还未设置等级*/
         if(!$max_grade)
             return false;
@@ -97,15 +118,14 @@ class Model_Grade extends \Model
         //判断是否达到了晋升条件并晋升
             /*当前没有等级时，晋升到最低等级；有等级时，晋升到当前等级+1*/
         if($current_grade == 0){
-            $up_grade = self::getMaximumGrade($user_id,$user_user_id,'asc');
+            $up_grade = self::getMaximumGrade($user_id,'asc');
         }else{
             $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
             $obj->from('grade s');
             $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
             $obj->addOrderBy('grade','asc');
             $obj->setLimiter(0,1);
-            $result = $obj->query(false);
-            $up_grade = $result[0];
+            $up_grade = $obj->query(false);
         }
             /*获取当前会员的下级总数*/
         $lower_count = Model_Member::getLowerCount($user_user_id);

@@ -51,14 +51,16 @@ class Model_PaymentRecord extends \Model
         return array('record'=>$record,'sum'=>$sum);
     }
 
-    public static function getRecord($id = 0){
-        if(!$id)
-            return false;
-
+    //»ñÈ¡¼ÇÂ¼
+    public static function getRecord($fileds = array()){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record s');
+        if($fileds){
+            foreach($fileds as $key=>$item){
+                $obj->addAndWhere($key.'='.$item);
+            }
+        }
 
-        $obj->addAndWhere('id='.$id);
         return $obj->query(false);
     }
 
@@ -104,5 +106,10 @@ class Model_PaymentRecord extends \Model
         $obj->addAndWhere('enter_member='.$user_id);
         $obj->addAndWhere('status='.$status);
         return $obj->count();
+    }
+
+    public static function insertRecord($fileds){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        return $obj->insert('payment_record',$fileds);
     }
 }

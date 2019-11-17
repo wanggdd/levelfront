@@ -11,7 +11,7 @@ use Model\WebPlugin\Model_Member;
 $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 
 //打款信息
-$record = Model_PaymentRecord::getRecord($id);
+$record = Model_PaymentRecord::getRecord(array('id'=>$id));
 $record_info = $record[0];
 $record_info['out_time'] = date('Y-m-d H:i:s',$record_info['out_time']);
 $record_info['enter_time'] = date('Y-m-d H:i:s',$record_info['enter_time']);

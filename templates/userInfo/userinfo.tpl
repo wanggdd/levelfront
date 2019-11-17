@@ -26,7 +26,7 @@
             <img class="icon-pending" src="/public/images/userInfo/icon-pending.png" alt="">
             <p>我的待办</p>
         </div>
-        <div class="item" οnclick="window.open('/dom/NineFenXiao/finance.php?zz_user_id=<{$zz_user_info.id}>')">
+        <div class="item" onclick="location='/dom/NineFenXiao/finance.php?zz_user_id=<{$zz_user_info.id}>';">
             <img class="icon-money" src="/public/images/userInfo/icon-money.png" alt="">
             <p>财务中心</p>
         </div>

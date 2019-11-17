@@ -18,7 +18,7 @@
     <ul class="list">
         <{if $record_info}>
         <{foreach key=key item=item from=$record_info}>
-        <li class="item">
+        <li class="item" onclick="location='/dom/NineFenXiao/waitenterinfo.php?pid=<{$item.id}>';">
             <div class="title">
                 <div class="name"><{$item.task_note}></div>
                 <div class="status"><{$item.status_word}></div>
