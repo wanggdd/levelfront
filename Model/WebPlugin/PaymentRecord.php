@@ -11,13 +11,10 @@ class Model_PaymentRecord extends \Model
             return false;
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $obj->from('payment_record s');
+        $sql = 'select * from payment_record where enter_member='.$user_id.' and (status=1 or status=3)';
 
-        $obj->addAndWhere('enter_member='.$user_id);
-        $obj->addAndWhere('status=1');
-        $obj->addOrWhere('status=3');
-
-        return $obj->query(false);
+        //return $obj->sqlQuery(false);
+        return $obj->sqlQuery($sql,'get_results');
     }
 
     /*

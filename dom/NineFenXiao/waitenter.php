@@ -17,9 +17,14 @@ if($record_info){
         }else if($item['status'] == 3){
             $record_info[$key]['status_word'] = '已拒绝';
         }
+        $record_info[$key]['task_type'] = '升级任务';
+        if($item['payment_type'] == 2)
+            $record_info[$key]['task_type'] = '激活任务';
+
         $record_info[$key]['out_time'] = date('Y-m-d H:i:s',$item['out_time']);
     }
 }
+
 
 $smarty->assign('record_info',$record_info);
 $smarty->assign('nickname',$nickname);
