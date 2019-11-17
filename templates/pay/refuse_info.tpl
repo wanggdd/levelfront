@@ -21,6 +21,7 @@
 
             <div class="content">
                 <input type="hidden" name="pid" value="<{$pid}>">
+                <input type="hidden" name="user_id" value="<{$user_id}>">
                 <textarea class="content__textarea" placeholder="ÇëÌîÐ´±¸×¢" name="refuse_reason"></textarea>
             </div>
         </div>

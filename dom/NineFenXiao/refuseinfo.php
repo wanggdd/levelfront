@@ -30,6 +30,7 @@ $out_name = $out_member[0]['user_name'];
 $enter_member = \Model\WebPlugin\Model_User::getUserById($record_info['enter_member']);
 $enter_name = $enter_member[0]['user_name'];
 $smarty->assign('pid',$pid);
+$smarty->assign('user_id',$userid);
 $smarty->assign('out_name',$out_name);
 $smarty->assign('enter_name',$enter_name);
 $smarty->assign('record',$record_info);
