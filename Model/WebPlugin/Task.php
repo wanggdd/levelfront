@@ -64,15 +64,30 @@ class Model_Task extends \Model
                 $user_info = Model_User::getUserById($task_member['user_user_id']);
                 $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
                 $return['enter_member'] = $task_member['user_user_id'];
-            }
+            }else{
+                //没有时，查找等级默认的人
+                $info = Model_Grade::getGrade(array('user_id'=>$user_id,'grade'=>$up_info['grade']));
+                if($info[0]['user_user_id']){
+                    $user_info = Model_User::getUserById($info[0]['user_user_id']);
+                    $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
+                    $return['enter_member'] = $task_member['user_user_id'];
+                    //查找默认打款金额
+                    $setting_info = Model_Setting::getSetting($user_id);
+                    $money = $setting_info['noactive_active_money'];
+                    $return['promote_money'] = $money;
+                }
 
+            }
             //$return['task_member'] = $task_member;
             return $return;
-
         }
     }
 
     //未激活的人的第九层级，若上面没有九层，就给系统设置的最高等级的默认会员打
+    /**
+     * @param $user_id int  当前网站所属ID
+     * @param $user_user_id int  当前会员ID
+     */
     public function getNine($user_id,$user_user_id){
         //获取系统当前最大等级
         $grade = Model_Grade::getMaximumGrade($user_id);
@@ -109,6 +124,10 @@ class Model_Task extends \Model
                 $return['enter_member'] = $grade['user_user_id'];
                 $user_info = Model_User::getUserById($grade['user_user_id']);
                 $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
+                //查找默认打款金额
+                $setting_info = Model_Setting::getSetting($user_id);
+                $money = $setting_info['noactive_active_money'];
+                $return['promote_money'] = $money;
             }else{
                 return false;
             }

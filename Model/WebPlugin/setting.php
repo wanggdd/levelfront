@@ -12,4 +12,5 @@ class Model_Setting extends \Model
         $result = $obj->query(false);
         return $result[0];
     }
+
 }
