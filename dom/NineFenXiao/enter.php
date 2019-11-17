@@ -28,4 +28,5 @@ $member = Model_Member::getMemberByUser($record_info['out_member']);
 $smarty->assign('record', $record_info);
 $smarty->assign('user_info', $user_info);
 $smarty->assign('member_info', $member[0]);
+$smarty->assign('out_name',$user_info['nick_name']);
 $smarty->display('pay/gathering_info.tpl');
