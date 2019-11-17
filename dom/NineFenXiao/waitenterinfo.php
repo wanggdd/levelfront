@@ -6,14 +6,16 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
 use Model\WebPlugin\Model_PaymentRecord;
+use Model\WebPlugin\Model_Member;
+use Model\WebPlugin\Model_Grade;
 
 $userid = $zz_userid;
+$admin_id = USER_ID;
 $nickname = USER_USER_NICK_NAME;
 $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
 $records = Model_PaymentRecord::getRecord(array('id'=>$pid));
 $record_info = $records[0];
 if($userid!=$record_info['enter_member']){
-
     die('deny1');
 }
 
@@ -23,8 +25,12 @@ if(!empty($_POST)){
     if($type=='confirm'){ //待确认更新为确认或者取消
         header('Content-type: application/json');
         $up_status = Model_PaymentRecord::updateStatus($pid,2);
-
         if($up_status) {
+            $member = Model_Member::getMemberByUser($userid);
+            if($member&&$member[0]['status']==2){
+                 Model_Grade::promote($admin_id,$userid);
+            }
+
             echo json_encode(['status' => 'success', 'msg' => '']);
         }else{
             echo json_encode(['status' => 'fails', 'msg' => 'confirm fails']);
