@@ -24,7 +24,7 @@
     <div class="form-item">
         <div class="form-text">Í«≥∆</div>
         <div class="form-inp">
-            <input class="fi-text" type="text" value="÷–∂ÌªÏ—™∂˘">
+            <input class="fi-text" type="text" value="<{$username}>">
         </div>
     </div>
     <div class="form-item">
@@ -43,6 +43,7 @@
             <input class="fi-qrcode__file" type="file" id="upload_qrcode" onchange="upload_qrcode()">
         </div>
         <{/if}>
+        <input type="hidden" name="userid" id="userid" value="<{$userid}>">
     </div>
 </div>
 
