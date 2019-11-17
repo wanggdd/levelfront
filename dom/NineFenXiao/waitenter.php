@@ -23,4 +23,5 @@ if($record_info){
 
 $smarty->assign('record_info',$record_info);
 $smarty->assign('nickname',$nickname);
+$smarty->assign('zz_userid',$userid);
 $smarty->display('pay/await_gathering_list.tpl');

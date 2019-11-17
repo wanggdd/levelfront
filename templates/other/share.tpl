@@ -10,6 +10,7 @@
     <title>邀请好友</title>
 </head>
 <body>
+<{include file='../commond/left.tpl'}>
 <div id="share">
     <div class="content">
         <img src="<{$invite_code}>" alt="">
@@ -18,5 +19,4 @@
     </div>
     <div class="hint">长按保存图片</div>
 </div>
-</body>
-</html>
+<{include file='../commond/footer.tpl'}>

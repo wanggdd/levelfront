@@ -7,6 +7,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/include/public.php';
 use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_User;
 
+$userid = USER_USER_ID;
+
 function cget($url){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -17,23 +19,18 @@ function cget($url){
 }
 
 //获取member信息
-$memebr = Model_Member::getMemberByUser($zz_userid);
-$invite_code = $memebr[0]['invite_code'];
-//获取user信息
-$user = Model_User::getUserById($zz_userid);
-$user_name = $user[0]['user_name'];
-$user_id = $user[0]['user_id'];
+$invite_code = $current_member['invite_code'];
 if(!$invite_code){
     //写入分享码
     //$content = file_get_contents('http://m.evyun.cn/wap/shareAlert/NineFx.php?username='.$user_name.'&zz_userid='.$zz_userid);
-    $url = 'http://m.evyun.cn/wap/shareAlert/NineFx.php?username='.$user_name.'&zz_userid='.$user_id;
+    $url = 'http://m.evyun.cn/wap/shareAlert/NineFx.php?username='.USER_USER_NICK_NAME.'&zz_userid='.$userid;
     $content = cget($url);
     if($content){
         $res = json_decode($content,true);
         if($res&&$res['status']=='200'){ //二维码获取成功更新到数据中
             $img = $res['list']['returnUrl'];
             $invite_code = $img;
-            $status = Model_Member::updateQrcode($zz_userid,$img,'share');
+            $status = Model_Member::updateQrcode($userid,$img,'share');
             if(!$status){  //保存失败的错误处理
                 //todo
             }

@@ -33,7 +33,7 @@
     </div>
     <div class="content-wrapper">
         <div class="content-box">
-            <div class="title">上传打款证明</div>
+            <div class="title">打款凭证</div>
             <div class="content">
                 <img class="content__img" src="<{$record.payment_voucher}>" alt="">
             </div>

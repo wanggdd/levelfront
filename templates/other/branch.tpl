@@ -12,7 +12,7 @@
 </head>
 
 <body>
-
+<{include file='../commond/left.tpl'}>
 <div id="branch">
   <div class="lower-level">
     <div class="people">

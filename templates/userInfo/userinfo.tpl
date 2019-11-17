@@ -32,14 +32,14 @@
         </div>
         <{/if}>
         <!--
-        已激活的有这两个图标
-        -->
+        已激活的有这两个图标-->
+
         <{if $current_member.status==2}>
-        <div class="item">
+        <div class="item" onclick="location='/dom/NineFenXiao/mylower.php?zz_userid=<{$zz_user_info.id}>';">
             <img class="icon-branch" src="/public/images/userInfo/icon-branch.png" alt="">
             <p>我的下级</p>
         </div>
-        <div class="item">
+        <div class="item" onclick="location='/dom/NineFenXiao/invite.php?zz_userid=<{$zz_user_info.id}>';">
             <img class="icon-share" src="/public/images/userInfo/icon-share.png" alt="">
             <p>邀请好友</p>
         </div>

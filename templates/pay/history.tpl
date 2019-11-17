@@ -85,5 +85,5 @@
 <script src="/public/js/jquery.min.2.1.1.js"></script>
 <script src="/public/css/lib/mobileSelect/mobileSelect.min.js"></script>
 <script src="/public/js/history.js"></script>
-
+<script src="/public/js/common.js"></script>
 </html>
