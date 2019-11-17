@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<{include file='../commond/left.tpl'}>
 <div id="pay">
     <div class="form-group">
         <div class="form-item">

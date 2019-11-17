@@ -44,7 +44,7 @@
             <div class="list active">
                 <{if $out_record}>
                     <{foreach key=key item=item from=$out_record}>
-                        <div class="item">
+                        <div class="item" onclick="location='/dom/NineFenXiao/out.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>';">
                             <div class="avatar">
                                 <img class="avatar__img" src="<{$item.pic}>" alt="">
                             </div>
@@ -63,7 +63,7 @@
             <div class="list">
                 <{if $enter_record}>
                     <{foreach key=key item=item from=$enter_record}>
-                    <div class="item" onclick="location='/dom/NineFenXiao/enter.php?id=<{$item.id}>';">
+                    <div class="item" onclick="location='/dom/NineFenXiao/enter.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>';">
                         <div class="avatar">
                             <img class="avatar__img" src="<{$item.pic}>" alt="">
                         </div>

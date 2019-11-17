@@ -7,6 +7,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/include/public.php';
 use Model\WebPlugin\Model_PaymentRecord;
 use Model\WebPlugin\Model_User;
 
+$userid = USER_USER_ID;
+
 $year = $_POST['year'] ? $_POST['year'] : date("Y",time());
 $month = $_POST['month'] ? $_POST['month'] : date("m",time());
 
@@ -55,7 +57,5 @@ $smarty->assign('out_sum', $out_sum);
 $smarty->assign('enter_sum', $enter_sum);
 $smarty->assign('year', $year);
 $smarty->assign('month', $month);
+$smarty->assign('zz_userid', $userid);
 $smarty->display('pay/history.tpl');
-
-
-

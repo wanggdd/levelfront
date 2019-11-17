@@ -28,7 +28,7 @@
         </div>
         <div class="form-item">
             <div class="text">打款时间</div>
-            <div class="value"><{$record.out_time|date_format:'%Y-%m-%d'}></div>
+            <div class="value"><{$record.out_time|date_format:'%Y-%m-%d %H:%i:%s'}></div>
         </div>
     </div>
     <div class="content-wrapper">
