@@ -102,7 +102,7 @@ class Model_PaymentRecord extends \Model
         $obj->from('payment_record p');
         $obj->addAndWhere('enter_member='.$user_id);
         $obj->addAndWhere('status=1');
-        $obj->addOrWhere('status=3');
+        //$obj->addOrWhere('status=3');
         return $obj->count();
     }
 
