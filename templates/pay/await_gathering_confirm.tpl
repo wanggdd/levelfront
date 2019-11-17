@@ -78,7 +78,7 @@
 <script>
     function confirm_commit(payment_id) {
         var user_id = <{$user_id}>;
-        $.post("/dom/NineFenXiao/waitenterinfo.php",{pid:payment_id,type:'confirm'},function(data,status){
+        $.post("/dom/NineFenXiao/waitenterinfo.php",{pid:payment_id,type:'confirm',zz_userid:user_id},function(data,status){
             if(data.status=='success'){
                 window.location.reload();
             }else{
