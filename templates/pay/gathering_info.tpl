@@ -17,7 +17,7 @@
     <div class="form-group">
         <div class="form-item">
             <div class="text">打款人</div>
-            <div class="value"><{$out_name}></div>
+            <div class="value"><{$user_info.nick_name}></div>
         </div>
         <div class="form-item">
             <div class="text">打款金额</div>
