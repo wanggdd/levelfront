@@ -49,6 +49,7 @@ $member_infos = \Model\WebPlugin\Model_Member::getMemberByUser($record_info['ent
 $pay_qrcode = $member_infos[0]['payment_code'];
 
 $smarty->assign('out_name',$out_name);
+$smarty->assign('user_id',$userid);
 $smarty->assign('enter_name',$enter_name);
 $smarty->assign('pay_qrcode',$pay_qrcode);
 $smarty->assign('record',$record_info);
