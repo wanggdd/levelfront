@@ -35,7 +35,7 @@ class Model_Task extends \Model
             $return['grade_title']      = '升级'.$up_info['grade'].'任务';
             $return['promote_type']     = 2;
             $return['out_member']       = $user_user_id;
-            $return['up_grade']         = $up_info['grade'];
+            $return['task_grade']         = $up_info['grade'];
 
             //往上查3层，是否有等级是上一级的会员
             $task_member = array();
@@ -63,10 +63,10 @@ class Model_Task extends \Model
             if($task_member){
                 $user_info = Model_User::getUserById($task_member['user_user_id']);
                 $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
-                $return['enter_member'] = $user_info[$task_member['user_user_id']];
+                $return['enter_member'] = $task_member['user_user_id'];
             }
 
-            $return['task_member'] = $task_member;
+            //$return['task_member'] = $task_member;
             return $return;
 
         }

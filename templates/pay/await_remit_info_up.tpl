@@ -13,6 +13,7 @@
 
 <body>
 <{include file="../commond/left.tpl"}>
+<form method="post" action="/dom/NineFenXiao/waitoutup.php?zz_userid=<{$zz_userid}>" name="form1" id="form1">
     <div id="pay">
         <div class="form-group">
             <div class="form-item">
@@ -35,27 +36,42 @@
                 </div>
             </div>
             <div class="content-box">
-                <div class="title">打款证明</div>
+                <div class="title">上传打款证明</div>
                 <div class="content">
-                    <img class="c-rqcode__img" src="<{$page_info.payment_voucher}>">
+                    <input type="file" id="photoFile" style="display: none;" onchange="upload_voucher()">
+                    <img class="c-rqcode__img" src="/public/images/pay/icon-add.png" id="voucher_photo" onclick="uploadPhoto()">
+                    <input type="hidden" id="productImg" name="payment_voucher">
                 </div>
             </div>
             <div class="content-box">
                 <div class="title">打款备注</div>
                 <div class="content">
-                    <p class="content__textarea" name="payment_note"><{$page_info.payment_note}></p>
+                    <textarea class="content__textarea" name="payment_note" placeholder="请填写备注"></textarea>
                 </div>
             </div>
         </div>
-        <div class="form-group mt20">
-            <div class="form-item">
-                <div class="text">提交时间</div>
-                <div class="value"><{$page_info.out_time}></div>
-            </div>
-        </div>
+        <input type="hidden" name="record_id" value="<{$record_id}>">
+        <input type="hidden" name="form_submit" value="1">
+        <input type="hidden" name="task_grade" value="<{$page_info.task_grade}>">
+        <input type="hidden" name="promote_money" value="<{$page_info.promote_money}>">
+        <input type="hidden" name="enter_member" value="<{$page_info.enter_member}>">
+        <button class="submit-btn center-block" type="button" onclick="check_info()">提交</button>
     </div>
+</form>
 
 </body>
+<script type="text/javascript">
+    function check_info(){
+        var voucher = $('#productImg').val();
+
+        if(voucher == ''){
+            alert('请上传打款凭证');
+            return false;
+        }else{
+            $('#form1').submit();
+        }
+    }
+</script>
 
 <script src="/public/js/jquery.min.2.1.1.js"></script>
 <script src="/public/js/common.js"></script>

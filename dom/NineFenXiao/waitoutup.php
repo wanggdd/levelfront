@@ -1,5 +1,5 @@
 <?php
-//待打款任务
+//晋升任务
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/setting.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
@@ -8,11 +8,10 @@ use Model\WebPlugin\Model_PaymentRecord;
 use Model\WebPlugin\Model_User;
 use \Model\WebPlugin\Model_Member;
 
-$uid = USER_ID;
+$uid = USER_ID;//当前页面提交---添加
 $userid = USER_USER_ID;
-$tpl = 'pay/await_remit_info.tpl';
+$tpl = 'pay/await_remit_info_up.tpl';
 
-//当前页面提交---添加
 if(isset($_POST['form_submit']) && $_POST['form_submit'] == '1'){
     //向payment_record表中添加数据
     if(!$_POST['record_id']){
@@ -25,12 +24,12 @@ if(isset($_POST['form_submit']) && $_POST['form_submit'] == '1'){
             'status'        => 1,
             'payment_voucher'   => $_POST['payment_voucher'],
             'payment_note'      => $_POST['payment_note'],
-            'payment_type'      => 2,
+            'payment_type'      => 1,
             'task_grade'        => $_POST['task_grade']
         );
         $result = Model_PaymentRecord::insertRecord($data);
         if($result){
-            header('location:/dom/ninefenxiao/waitout.php?zz_userid='.$userid);
+            header('location:/dom/NineFenXiao/waitout.php?zz_userid='.$userid);
         }else{
             echo "";
         }
@@ -56,7 +55,7 @@ if(isset($_POST['form_submit']) && $_POST['form_submit'] == '2'){
 }
 
 $record_id = isset($_REQUEST['record_id']) ? $_REQUEST['record_id'] : 0;
-if(isset($_REQUEST['record_id'])){
+if($record_id){
     $record = Model_PaymentRecord::getRecord(array('id'=>$record_id));
     //获取打款人基本信息
     $user_info = Model_User::getUserById($record[0]['enter_member']);
@@ -75,7 +74,7 @@ if(isset($_REQUEST['record_id'])){
         $tpl = 'pay/await_remit_info_read.tpl';
     }else if($record[0]['status'] == 3) {
         $page_info['refuse_reason']   = $record[0]['refuse_reason'];
-        $tpl = 'pay/refuse.tpl';//已经拒绝的
+        $tpl = 'pay/refuse_up.tpl';//已经拒绝的
     }
 
     //$record = Model_PaymentRecord::getRecord(array('out_member'=>$user_id,'payment_type'=>2,'task_grade'=>1));
@@ -83,7 +82,6 @@ if(isset($_REQUEST['record_id'])){
     //任务表没有记录的情况
     $task_grade = $_REQUEST['task_grade'];
     $enter_member = $_REQUEST['enter_member'];
-
     //待收款人基本信息
     $user_info = Model_User::getUserById($enter_member);
     $page_info['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
@@ -100,3 +98,5 @@ $smarty->assign('page_info',$page_info);
 $smarty->assign('record_id',$record_id);
 $smarty->assign('zz_userid',$userid);
 $smarty->display($tpl);
+
+

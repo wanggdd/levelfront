@@ -36,6 +36,12 @@
                 </div>
             </div>
             <div class="content-box">
+                <div class="title">拒绝原因</div>
+                <div class="content">
+                    <textarea class="content__textarea" name="payment_note" placeholder="请填写备注"><{$page_info.payment_note}></textarea>
+                </div>
+            </div>
+            <div class="content-box">
                 <div class="title">上传打款证明</div>
                 <div class="content">
                     <input type="file" id="photoFile" style="display: none;" onchange="upload_voucher()">

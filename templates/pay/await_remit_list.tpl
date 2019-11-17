@@ -29,8 +29,8 @@
         </li>
         <{/if}>
         <{if $task_list2}>
-        <li class="item" <{if $task_list1.record_id}>onclick="location='/dom/NineFenXiao/waitoutactive.php?record_id=<{$task_list1.record_id}>';"
-        <{else}> onclick="location='/dom/NineFenXiao/waitoutactive.php?task_grade=2&enter_member=<{$task_list1.enter_member}>&zz_userid=<{$zz_userid}>';"<{/if}>>
+        <li class="item" <{if $task_list2.record_id}>onclick="location='/dom/NineFenXiao/waitoutactive.php?zz_userid=<{$zz_userid}>&record_id=<{$task_list2.record_id}>';"
+        <{else}> onclick="location='/dom/NineFenXiao/waitoutactive.php?task_grade=2&enter_member=<{$task_list2.enter_member}>&zz_userid=<{$zz_userid}>';"<{/if}>>
             <div class="title">
                 <div class="name">激活任务</div>
                 <div class="status"><{$task_list2.status_title}></div>
@@ -43,8 +43,8 @@
     <{/if}>
     <{if $status == 2}>
         <{if $task_list}>
-        <li class="item" <{if $task_list.record_id}>onclick="location='/dom/NineFenXiao/waitoutup.php?record_id=<{$task_list.record_id}>';"
-        <{else}> onclick="location='/dom/NineFenXiao/waitoutup.php?enter_member=<{$task_list.enter_member}>&zz_userid=<{$zz_userid}>';"><{/if}>>
+        <li class="item" <{if $task_list.record_id}>onclick="location='/dom/NineFenXiao/waitoutup.php?zz_userid=<{$zz_userid}>&record_id=<{$task_list.record_id}>';"
+        <{else}> onclick="location='/dom/NineFenXiao/waitoutup.php?task_grade=<{$task_list.task_grade}>&enter_member=<{$task_list.enter_member}>&zz_userid=<{$zz_userid}>&promote_money=<{$task_list.promote_money}>';"<{/if}>>
             <div class="title">
                 <div class="name">升级任务</div>
                 <div class="status"><{$task_list.status_title}></div>

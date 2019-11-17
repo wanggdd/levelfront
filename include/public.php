@@ -7,18 +7,24 @@ define('SITE_VIP', 1); // 0 免费用户 1 付费用户
 define('IP', trim(getIP2()));
 define("HOME_URL", '/'); // 首页地址
 
+use Model\WebPlugin\Model_User;
+use Model\WebPlugin\Model_Member;
+
 $zz_userid = isset($_REQUEST['zz_userid']) ? (int)$_REQUEST['zz_userid'] : 0;
 
 $zz_user_info = [];
 if ($zz_userid) {
-    $zz_user_info = [
+    $user_info = Model_User::getUserById($zz_userid);
+    $zz_user_info = $user_info[0];
+
+    /*$zz_user_info = [
         'id'         => '248478',
         'user_name'  => 'wolaiceshi',
         'nick_name'  => '中英混血儿',
         'pic'        => '',
         'input_time' => '2009-11-04 10:19:58', // 注册时间
         'mobile'     => '1111111111111', // 手机号
-    ];
+    ];*/
 
     $zz_user_info['user_user_nick_name'] = $zz_user_info['nick_name'] ? $zz_user_info['nick_name'] : $zz_user_info['user_name'];
     $zz_user_info['user_user_head_pic']  = $zz_user_info['pic'] ? $zz_user_info['pic'] : 'http://aimg8.dlszyht.net.cn/default/user_user_profile.jpg';
@@ -28,8 +34,6 @@ if ($zz_userid) {
     define('USER_USER_NICK_NAME', $zz_user_info['user_user_nick_name']);
     define('USER_USER_HEAD_PIC', $zz_user_info['user_user_head_pic']); // 用户头像
 }
-
-use Model\WebPlugin\Model_Member;
 
 //获取member表信息
 $member = Model_Member::getMemberByUser(USER_USER_ID);

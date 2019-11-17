@@ -75,27 +75,25 @@ if($status == 1){
 
 //已激活状态，需要晋升
 if($status == 2){
-
     $task_list = Model_Task::getThree($uid,$userid);
     if($task_list){
-        foreach($task_list as $key=>$item){
-            $info = Model_PaymentRecord::getRecord(
-                array('out_member'=>$item['out_member'],'enter_member'=>$item['enter_member'],'task_grade'=>$item['up_grade'],'user_id'=>$uid)
-            );
-            //证明此任务已经在payment表里了，肯定已经做过相关操作
-            if($info){
-                $task_list['record_id'] = $info[0]['id'];
-                if($info[0]['status'] == 1){
-                    $task_list['status_title'] = '已打款待收款';
-                }
-                if($info[0]['status'] == 3){
-                    $task_list['status_title'] = '已拒绝';
-                }
-            }else{
-                $task_list['status_title'] = '待打款';
+        $info = Model_PaymentRecord::getRecord(
+            array('out_member'=>$task_list['out_member'],'enter_member'=>$task_list['enter_member'],'task_grade'=>$task_list['task_grade'],'user_id'=>$uid)
+        );
+        //证明此任务已经在payment表里了，肯定已经做过相关操作
+        if($info){
+            $task_list['record_id'] = $info[0]['id'];
+            if($info[0]['status'] == 1){
+                $task_list['status_title'] = '已打款待收款';
             }
+            if($info[0]['status'] == 3){
+                $task_list['status_title'] = '已拒绝';
+            }
+        }else{
+            $task_list['status_title'] = '待打款';
         }
     }
+    //var_dump($task_list);exit;
 
     $smarty->assign('task_list',$task_list);
 }
