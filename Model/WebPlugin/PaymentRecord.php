@@ -11,7 +11,7 @@ class Model_PaymentRecord extends \Model
             return false;
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $sql = 'select * from payment_record where enter_member='.$user_id.' and (status=1 or status=3)';
+        $sql = 'select * from payment_record where enter_member='.$user_id.' and (status=1 or status=3) and is_del=0';
 
         //return $obj->sqlQuery(false);
         return $obj->sqlQuery($sql,'get_results');
@@ -28,6 +28,7 @@ class Model_PaymentRecord extends \Model
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record s');
 
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('status=2');
 
         if($enter){
@@ -52,6 +53,7 @@ class Model_PaymentRecord extends \Model
     public static function getRecord($fileds = array()){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record s');
+        $obj->addAndWhere('is_del=0');
         if($fileds){
             foreach($fileds as $key=>$item){
                 $obj->addAndWhere($key.'='.$item);
@@ -64,6 +66,7 @@ class Model_PaymentRecord extends \Model
     public static function getActRecord($user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('out_member='.$user_id);
         $obj->addAndWhere('payment_type=2');
         $obj->addAndWhere('(status=1');
@@ -74,6 +77,7 @@ class Model_PaymentRecord extends \Model
     public static function getActFinishRecord($user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('out_member='.$user_id);
         $obj->addAndWhere('payment_type=2');
         $obj->addAndWhere('status=2');
@@ -111,6 +115,7 @@ class Model_PaymentRecord extends \Model
     public static function getWaitPayRecord($user_id,$status=0){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('enter_member='.$user_id);
         $obj->addAndWhere('(status=1');
         $obj->addOrWhere('status=3)');

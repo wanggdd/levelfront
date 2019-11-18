@@ -11,8 +11,11 @@ class Model_Task extends \Model
      * @param $user_user_id int  当前会员ID
      */
     public static function getThree($user_id,$user_user_id){
+        $return = array();
         //先获取当前会员的等级
         $member = Model_Member::getMemberByUser($user_user_id);
+        if(!$member[0]['higher_id'])
+            return $return;
         $grade_id = $member[0]['grade'];
         $grade_info = Model_Grade::getGradeByGrade($grade_id);
         if($grade_info){
@@ -30,7 +33,7 @@ class Model_Task extends \Model
                 }
             }
 
-            $return = array();
+
             $return['promote_money']    = $up_info['promote_money'];
             $return['grade_title']      = '升级'.$up_info['grade'].'任务';
             $return['promote_type']     = 2;

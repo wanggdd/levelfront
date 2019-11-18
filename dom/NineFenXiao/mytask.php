@@ -44,7 +44,7 @@ if($status == 1){
 
 }else if($status == 2){
     $task_list = Model_Task::getThree($uid,$userid);
-    $wait_pay_record = 1;
+    $wait_pay_record = count($task_list);
 }
 
 //´ıÊÕ¿î¼ÇÂ¼
