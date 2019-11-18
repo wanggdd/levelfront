@@ -60,6 +60,8 @@ class Model_PaymentRecord extends \Model
             }
         }
 
+        //$obj->query(false);
+        //echo $obj->getSQL();
         return $obj->query(false);
     }
 

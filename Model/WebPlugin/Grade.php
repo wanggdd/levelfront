@@ -15,6 +15,7 @@ class Model_Grade extends \Model
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('id='.$id);
         $result = $obj->query(false);
         if($result)
@@ -25,6 +26,7 @@ class Model_Grade extends \Model
     public static function getGrade($fileds = array()){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         if($fileds){
             foreach($fileds as $key=>$item){
                 $obj->addAndWhere($key.'='.$item);
@@ -42,6 +44,7 @@ class Model_Grade extends \Model
     public static function getInfoByUser($user_id,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id.' and user_user_id='.$user_user_id);
         $result = $obj->query(false);
         if($result)
@@ -53,6 +56,7 @@ class Model_Grade extends \Model
     public static function getMaximumGrade($user_id,$type = 'desc'){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id);
         $obj->addOrderBy('grade',$type);
         $obj->setLimiter(0,1);
@@ -65,6 +69,7 @@ class Model_Grade extends \Model
     public static function getMinGrade($user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id);
         $obj->addOrderBy('grade','asc');
         $obj->setLimiter(0,1);
@@ -81,12 +86,22 @@ class Model_Grade extends \Model
     public static function getNextGrade($user_id,$current_grade){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
         $obj->addOrderBy('grade','asc');
         $obj->setLimiter(0,1);
         $result = $obj->query(false);
 
         return $result;
+    }
+
+    public static function getGradeCount($user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
+        $obj->addAndWhere('user_id='.$user_id);
+
+        return $obj->count();
     }
 
     /**
@@ -127,6 +142,7 @@ class Model_Grade extends \Model
         //判断是否达到了晋升条件并晋升
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id.' and grade>'.$grade_info['grade']);
         $obj->addOrderBy('grade','asc');
         $obj->setLimiter(0,1);
@@ -134,19 +150,28 @@ class Model_Grade extends \Model
 
             /*获取当前会员的下级总数*/
         $lower_count = Model_Member::getLowerCount($user_user_id);
-            /*晋升数量规则 1:大于等于  2:等于*/
+            /*晋升数量规则 1:大于  2:大于等于*/
         if($up_grade['promote_lower_type'] == 1){
-            if($lower_count >= $up_grade['promote_lower_num']){
-                //晋升
-                self::upUserGrade('grade',$up_grade['id'],$user_user_id);
-                return 1;
+            if($lower_count > $up_grade['promote_lower_num']){
+                $payment_info = Model_PaymentRecord::getRecord(array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                $payment_count = count($payment_info);
+                if($payment_count > $lower_count){
+                    //晋升
+                    self::upUserGrade('grade',$up_grade['id'],$user_user_id);
+                    return 1;
+                }
             }
         }
         if($up_grade['promote_lower_type'] == 2){
-            if($lower_count = $up_grade['promote_lower_num']){
-                //晋升
-                self::upUserGrade('grade',$up_grade['id'],$user_user_id);
-                return 1;
+            if($lower_count >= $up_grade['promote_lower_num']){
+                $payment_info = Model_PaymentRecord::getRecord(array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                $payment_count = count($payment_info);
+                if($payment_count >= $lower_count){
+                    //晋升
+                    self::upUserGrade('grade',$up_grade['id'],$user_user_id);
+                    return 1;
+                }
+
             }
         }
         return 10;

@@ -8,11 +8,16 @@ use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_User;
 use Model\WebPlugin\Model_Grade;
 
-$lower_info = Model_Member::getLowerListAndCount($zz_userid);
-$lowerList  = $lower_info['record'];
-$count      = $lower_info['count'];
+$userid = USER_USER_ID;
 
-if($lowerList){
+$lowerList  = array();
+$count      = 0;
+
+$lower_info = Model_Member::getLowerListAndCount($userid);
+
+if($lower_info){
+    $lowerList  = $lower_info['record'];
+    $count      = $lower_info['count'];
     foreach($lowerList as $key=>$item){
         $user_info = Model_User::getUserById($item['user_user_id']);
         $lowerList[$key]['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];

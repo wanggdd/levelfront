@@ -84,7 +84,7 @@ if($status == 1){
         }
     }else{
         $task_model = new Model_Task();
-        $task_list2 = $task_model->getNine($uid,$user_id);
+        $task_list2 = $task_model->getNine($uid,$userid);
     }
 
     $smarty->assign('task_list1',$task_list1);

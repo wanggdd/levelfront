@@ -17,28 +17,23 @@ class Model_Task extends \Model
         if(!$member[0]['higher_id'])
             return $return;
         $grade_id = $member[0]['grade'];
-        $grade_info = Model_Grade::getGradeByGrade($grade_id);
-        if($grade_info){
-            $current_grade = $grade_info['grade'];
+        //$grade_info = Model_Grade::getGradeByGrade($grade_id);
+        //if($grade_info){
+            $current_grade = $grade_id;
             //当前无等级时，获得最低等级
-            if($current_grade == 0){
-                $up_info = Model_Grade::getMaximumGrade($user_id,'asc');
+            $max_grade = Model_Grade::getMaximumGrade($user_id);
+            if($current_grade == $max_grade['id']){
+                $up_info = $max_grade;
             }else{
-                $max_grade = Model_Grade::getMaximumGrade($user_id);
-                if($current_grade == $max_grade['grade']){
-                    $up_info = $max_grade;
-                }else{
-                    //获取当前等级紧挨的上一级
-                    $up_info = Model_Grade::getNextGrade($user_id,$current_grade);
-                }
+                //获取当前等级紧挨的上一级
+                $up_info = Model_Grade::getNextGrade($user_id,$current_grade);
             }
 
-
             $return['promote_money']    = $up_info['promote_money'];
-            $return['grade_title']      = '升级'.$up_info['grade'].'任务';
+            $return['grade_title']      = '升级'.$up_info['title'].'任务';
             $return['promote_type']     = 2;
             $return['out_member']       = $user_user_id;
-            $return['task_grade']         = $up_info['grade'];
+            $return['task_grade']       = $up_info['id'];
 
             //往上查3层，是否有等级是上一级的会员
             $task_member = array();
@@ -69,7 +64,7 @@ class Model_Task extends \Model
                 $return['enter_member'] = $task_member['user_user_id'];
             }else{
                 //没有时，查找等级默认的人
-                $info = Model_Grade::getGrade(array('user_id'=>$user_id,'grade'=>$up_info['grade']));
+                $info = Model_Grade::getGrade(array('user_id'=>$user_id,'id'=>$up_info['id']));
                 if($info[0]['user_user_id']){
                     $user_info = Model_User::getUserById($info[0]['user_user_id']);
                     $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
@@ -83,7 +78,7 @@ class Model_Task extends \Model
             }
             //$return['task_member'] = $task_member;
             return $return;
-        }
+        //}
     }
 
     //未激活的人的第九层级，若上面没有九层，就给系统设置的最高等级的默认会员打
@@ -93,8 +88,7 @@ class Model_Task extends \Model
      */
     public function getNine($user_id,$user_user_id){
         //获取系统当前最大等级
-        $grade = Model_Grade::getMaximumGrade($user_id);
-        $max_grade = $grade['grade'];
+        $max_grade = Model_Grade::getGradeCount($user_id);
         //当前用户的上级
         $member = Model_Member::getMemberByUser($user_user_id);
         $higher_id = $member[0]['higher_id'];
@@ -109,9 +103,11 @@ class Model_Task extends \Model
             $higher_id = $info['higher_id'];
             $i++;
         }
+
+        $grade = Model_Grade::getMaximumGrade($user_id);
         $level = $i-1;
         $return = array();
-        $return['promote_type']     = 1;
+        $return['promote_type']     = 2;
         $return['task_grade']       = 2;
         $return['promote_money']    = $grade[0]['promote_money'];
         $return['status_title']     = '待打款';
@@ -121,6 +117,7 @@ class Model_Task extends \Model
             $user_info = Model_User::getUserById($member_info['user_user_id']);
             $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
         }else{
+            //var_dump($grade);exit;
             //没有查到第九层，则找默认的人
             if($grade['user_user_id']){
                 $return['out_member']   = $user_user_id;
