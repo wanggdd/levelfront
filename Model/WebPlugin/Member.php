@@ -73,7 +73,7 @@ class Model_Member extends \Model
         $grade = Model_Grade::getMinGrade($admin_id);
         $gid = 0;
         if($grade){
-            $gid = $grade['grade'];
+            $gid = $grade['id'];
         }
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
