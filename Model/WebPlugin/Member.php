@@ -1,7 +1,7 @@
 <?php
 
 namespace Model\WebPlugin;
-
+use Model\WebPlugin\Model_Grade;
 class Model_Member extends \Model
 {
     public static function getMemberByUser($user_user_id = 0){
@@ -68,9 +68,16 @@ class Model_Member extends \Model
     }
 
     //激活 从1-2
-    public static function active($uid){
+    public static function active($uid,$admin_id=1){
+        //找出grade表中主键
+        $grades = Model_Grade::getGrade(['user_id'=>$admin_id,'grade'=>1]);
+        $gid = 0;
+        if(isset($grades[0])){
+            $gid = $grades[0]['id'];
+        }
+
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $obj->update('member s',['status'=>2],'user_user_id='.$uid);
+        $obj->update('member s',['status'=>2,'grade'=>$gid],'user_user_id='.$uid);
 
         //查看此会员是否有下级，若有下级需要将下级的状态改为未激活，就可以做邀请下级的任务了
         $list = self::getLowerListAndCount($uid);

@@ -10,7 +10,7 @@ use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_Grade;
 
 $userid = $zz_userid;
-$admin_id = USER_ID;
+$admin_id = USER_ID; //ÍøÕ¾ËùÊôÈËid
 $nickname = USER_USER_NICK_NAME;
 $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
 $records = Model_PaymentRecord::getRecord(array('id'=>$pid));
@@ -35,7 +35,7 @@ if(!empty($_POST)){
         if($up_status) {
             $act_finish_count = Model_PaymentRecord::getActFinishRecord($out_uid);
             if($act_finish_count>=2){
-                Model_Member::active($out_uid);
+                Model_Member::active($out_uid,$admin_id);
             }
             $member = Model_Member::getMemberByUser($out_uid);
             if($member&&$member[0]['status']==2){
