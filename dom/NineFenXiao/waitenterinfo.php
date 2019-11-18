@@ -31,18 +31,16 @@ if(!empty($_POST)){
         }
         $pay_record_info = $pay_record[0];
         $out_uid = $pay_record_info['out_member'];
+        $enter_member = $pay_record_info['enter_member'];
         $up_status = Model_PaymentRecord::updateStatus($pid,2);
         if($up_status) {
             $act_finish_count = Model_PaymentRecord::getActFinishRecord($out_uid);
             if($act_finish_count>=2){
                 Model_Member::active($out_uid,$admin_id);
             }
-            $member = Model_Member::getMemberByUser($out_uid);
-            if($member&&$member[0]['status']==2){
-                 Model_Grade::promote($admin_id,$out_uid);
-            }
 
-            echo json_encode(['status' => 'success', 'msg' => '']);
+            $pro_stat = Model_Grade::promote($admin_id,$enter_member);
+            echo json_encode(['status' => 'success', 'msg' => $pro_stat]);
         }else{
             echo json_encode(['status' => 'fails', 'msg' => 'confirm fails']);
         }

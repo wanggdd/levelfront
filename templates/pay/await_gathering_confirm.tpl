@@ -80,6 +80,7 @@
         var user_id = <{$user_id}>;
         $.post("/dom/NineFenXiao/waitenterinfo.php",{pid:payment_id,type:'confirm',zz_userid:user_id},function(data,status){
             if(data.status=='success'){
+                //alert('确认成功')
                 window.location.reload();
             }else{
                 alert('提交错误,请重试');
