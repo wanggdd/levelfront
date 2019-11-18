@@ -70,10 +70,10 @@ class Model_Member extends \Model
     //激活 从1-2
     public static function active($uid,$admin_id=1){
         //找出grade表中主键
-        $grades = Model_Grade::getGrade(['user_id'=>$admin_id,'grade'=>1]);
+        $grade = Model_Grade::getMinGrade($admin_id);
         $gid = 0;
-        if(isset($grades[0])){
-            $gid = $grades[0]['id'];
+        if($grade){
+            $gid = $grade['grade'];
         }
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));

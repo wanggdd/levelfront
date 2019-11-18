@@ -61,6 +61,17 @@ class Model_Grade extends \Model
         return $result;
     }
 
+    //获取最小等级
+    public static function getMinGrade($user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addOrderBy('grade','asc');
+        $obj->setLimiter(0,1);
+        $result = $obj->query(false);
+        return $result;
+    }
+
     public static function upUserGrade($field,$value,$uid){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
 
