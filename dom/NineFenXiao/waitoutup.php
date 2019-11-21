@@ -10,6 +10,7 @@ use \Model\WebPlugin\Model_Member;
 
 $uid = USER_ID;//当前页面提交---添加
 $userid = USER_USER_ID;
+$usenrame = USER_USER_NAME;
 $tpl = 'pay/await_remit_info_up.tpl';
 
 if(isset($_POST['form_submit']) && $_POST['form_submit'] == '1'){
@@ -56,13 +57,13 @@ if(isset($_POST['form_submit']) && $_POST['form_submit'] == '2'){
 
 $record_id = isset($_REQUEST['record_id']) ? $_REQUEST['record_id'] : 0;
 if($record_id){
-    $record = Model_PaymentRecord::getRecord(array('id'=>$record_id));
+    $record = Model_PaymentRecord::getRecord($uid,array('id'=>$record_id));
     //获取打款人基本信息
-    $user_info = Model_User::getUserById($record[0]['enter_member']);
+    $user_info = Model_User::getUserById($uid,$record[0]['enter_member']);
     $page_info['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
 
     //收款人member信息
-    $member = Model_Member::getMemberByUser($record[0]['enter_member']);
+    $member = Model_Member::getMemberByUser($uid,$record[0]['enter_member']);
     $page_info['payment_code'] = $member[0]['payment_code'];
     $page_info['promote_money'] = $record[0]['payment_money'];
     $page_info['payment_note']  = $record[0]['payment_note'];
@@ -83,11 +84,11 @@ if($record_id){
     $task_grade = $_REQUEST['task_grade'];
     $enter_member = $_REQUEST['enter_member'];
     //待收款人基本信息
-    $user_info = Model_User::getUserById($enter_member);
+    $user_info = Model_User::getUserById($uid,$enter_member);
     $page_info['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
 
     //收款人member信息
-    $member = Model_Member::getMemberByUser($enter_member);
+    $member = Model_Member::getMemberByUser($uid,$enter_member);
     $page_info['payment_code'] = $member[0]['payment_code'];
     $page_info['promote_money'] = $_REQUEST['promote_money'];
     $page_info['task_grade']    = $task_grade;
@@ -97,6 +98,7 @@ if($record_id){
 $smarty->assign('page_info',$page_info);
 $smarty->assign('record_id',$record_id);
 $smarty->assign('zz_userid',$userid);
+$smarty->assign('username',$username);
 $smarty->display($tpl);
 
 

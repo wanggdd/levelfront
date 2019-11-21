@@ -13,7 +13,7 @@
 
 <body>
 <{include file="../commond/left.tpl"}>
-<form method="post" action="/dom/NineFenXiao/waitoutactive.php?zz_userid=<{$zz_userid}>" name="form1" id="form1">
+<form method="post" action="/dom/NineFenXiao/waitoutactive.php?zz_userid=<{$zz_userid}>&username=<{$username}>&wap=1" name="form1" id="form1">
 <div id="pay">
   <div class="form-group">
     <div class="form-item">

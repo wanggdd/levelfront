@@ -4,25 +4,14 @@ namespace Model\WebPlugin;
 use Model\WebPlugin\Model_Grade;
 class Model_Member extends \Model
 {
-    public static function getMemberByUser($user_user_id = 0){
-        if(!$user_user_id)
+    public static function getMemberByUser($user_id,$user_user_id){
+        if(!$user_id || !$user_user_id)
             return false;
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('member s');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('user_user_id='.$user_user_id);
-        return $obj->query(false);
-    }
-
-    public static function getMemberJonUser($fileds){
-        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $obj->from('member s,user u');
-        if($fileds){
-            foreach($fileds as $key=>$item){
-                $obj->addAndWhere($key.'='.$item);
-            }
-        }
-
         return $obj->query(false);
     }
 
@@ -39,15 +28,15 @@ class Model_Member extends \Model
         return $obj->update('member s',[$field=>$qrcode],'user_user_id='.$uid);
     }
 
-    public static function getLowerListAndCount($user_id = 0){
-        if(!$user_id)
-            return false;
+    public static function getLowerListAndCount($user_id,$user_user_id = 0){
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('member s');
-        $obj->addAndWhere('higher_id='.$user_id);
+        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('higher_id='.$user_user_id);
 
         $record = $obj->query(false);
+        //echo $obj->getSQL();exit;
         if($record){
             $count = $obj->count();
             return array('record'=>$record,'count'=>$count);
@@ -55,10 +44,11 @@ class Model_Member extends \Model
         return fasle;
     }
 
-    public static function getLowerCount($user_id){
+    public static function getLowerCount($user_id,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('member s');
-        $obj->addAndWhere('higher_id='.$user_id);
+        $obj->addAndWhere('user_id='.$user_id);
+        $obj->addAndWhere('higher_id='.$user_user_id);
         return $obj->count();
     }
 
@@ -68,19 +58,19 @@ class Model_Member extends \Model
     }
 
     //激活 从1-2
-    public static function active($uid,$admin_id=1){
+    public static function active($user_user_id,$user_id=1){
         //找出grade表中主键
-        $grade = Model_Grade::getMinGrade($admin_id);
+        $grade = Model_Grade::getMinGrade($user_id);
         $gid = 0;
         if($grade){
             $gid = $grade['id'];
         }
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $obj->update('member s',['status'=>2,'grade'=>$gid],'user_user_id='.$uid);
+        $obj->update('member s',['status'=>2,'grade'=>$gid],'user_user_id='.$user_user_id);
 
         //查看此会员是否有下级，若有下级需要将下级的状态改为未激活，就可以做邀请下级的任务了
-        $list = self::getLowerListAndCount($uid);
+        $list = self::getLowerListAndCount($user_id,$user_user_id);
         if($list){
             foreach($list['record'] as $key=>$item){
                 self::upInfo(array('status'=>1),$item['user_user_id']);
@@ -91,9 +81,10 @@ class Model_Member extends \Model
     }
 
     //通过grade_id查找会员
-    public static function getInfoByGradeId($user_user_id,$grade_id){
+    public static function getInfoByGradeId($user_id,$user_user_id,$grade_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('member s');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('user_user_id='.$user_user_id.' and grade='.$grade_id);
         $result = $obj->query(false);
         //echo $obj->getSql();

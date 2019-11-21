@@ -14,7 +14,7 @@
 <body>
 <{include file='../commond/left.tpl'}>
 <div id="await">
-    <div class="form-item" onclick="location='/dom/NineFenXiao/waitout.php?zz_userid=<{$zz_userid}>';">
+    <div class="form-item" onclick="location='/dom/NineFenXiao/waitout.php?zz_userid=<{$zz_userid}>&username=<{$username}>&wap=1';">
         <div class="form-text">待打款</div>
         <!-- 已上传收款二维码 -->
         <div class="form-inp">
@@ -22,7 +22,7 @@
             <i class="icon-right"></i>
         </div>
     </div>
-    <div class="form-item" onclick="location='/dom/NineFenXiao/waitenter.php?zz_userid=<{$zz_userid}>';">
+    <div class="form-item" onclick="location='/dom/NineFenXiao/waitenter.php?zz_userid=<{$zz_userid}>&username=<{$username}>&wap=1';">
         <div class="form-text">待收款</div>
         <!-- 已上传收款二维码 -->
         <div class="form-inp">

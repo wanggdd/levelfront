@@ -11,6 +11,7 @@ use Model\WebPlugin\Model_Task;
 
 $uid = USER_ID;
 $userid = USER_USER_ID;
+$username = USER_USER_NAME;
 $status = $current_member['status'];
 
 if($status == 0)
@@ -20,9 +21,9 @@ $task_list = array();
 //未激活状态
 if($status == 1){
     //判断记录表里是否已经生成了给上级打款的打款记录
-    $record = Model_PaymentRecord::getRecord(array('out_member'=>$userid,'payment_type'=>2,'task_grade'=>1));
+    $record = Model_PaymentRecord::getRecord($uid,array('out_member'=>$userid,'payment_type'=>2,'task_grade'=>1));
     if($record){
-        $user_info = Model_User::getUserById($record[0]['enter_member']);
+        $user_info = Model_User::getUserById($uid,$record[0]['enter_member']);
         $user_info = $user_info[0];
         $task_list1 = array(
             'record_id'     => $record[0]['id'],
@@ -43,7 +44,7 @@ if($status == 1){
 
     }else{
         //上级信息
-        $higher_info = Model_User::getUserById($current_member['higher_id']);
+        $higher_info = Model_User::getUserById($uid,$current_member['higher_id']);
         if(isset($higher_info[0])) { //如果有上级才有激活任务
             $higher_info = $higher_info[0];
             //需给上级打款金额
@@ -62,9 +63,9 @@ if($status == 1){
     }
 
     //判断记录表里是否已经生成了给第九层级打款的打款记录
-    $record2 = Model_PaymentRecord::getRecord(array('out_member'=>$userid,'payment_type'=>2,'task_grade'=>2));
+    $record2 = Model_PaymentRecord::getRecord($uid,array('out_member'=>$userid,'payment_type'=>2,'task_grade'=>2));
     if($record2){
-        $user_info = Model_User::getUserById($record2[0]['enter_member']);
+        $user_info = Model_User::getUserById($uid,$record2[0]['enter_member']);
         $user_info = $user_info[0];
         $task_list2 = array(
             'record_id'     => $record2[0]['id'],
@@ -96,7 +97,7 @@ if($status == 1){
 if($status == 2){
     $task_list = Model_Task::getThree($uid,$userid);
     if($task_list){
-        $info = Model_PaymentRecord::getRecord(
+        $info = Model_PaymentRecord::getRecord($uid,
             array('out_member'=>$task_list['out_member'],'enter_member'=>$task_list['enter_member'],'task_grade'=>$task_list['task_grade'],'user_id'=>$uid)
         );
         //证明此任务已经在payment表里了，肯定已经做过相关操作
@@ -118,5 +119,6 @@ if($status == 2){
 }
 
 $smarty->assign('zz_userid',$userid);
+$smarty->assign('username',$username);
 $smarty->assign('status',$status);
 $smarty->display('pay/await_remit_list.tpl');

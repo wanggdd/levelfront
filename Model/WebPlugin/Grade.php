@@ -7,15 +7,17 @@ class Model_Grade extends \Model
     /**
      * 通过grade_id获取等级信息
      * @param int $id
+     * @param int $user_id  网站所属人ID
      * @return mixed
      */
-    public static function getGradeByGrade($id = 0){
-        if(!$id)
+    public static function getGradeByGrade($id = 0,$user_id = 0){
+        if(!$id || !$user_id)
             return false;
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
         $obj->addAndWhere('is_del=0');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('id='.$id);
         $result = $obj->query(false);
         if($result)
@@ -23,10 +25,11 @@ class Model_Grade extends \Model
         return false;
     }
 
-    public static function getGrade($fileds = array()){
+    public static function getGrade($user_id,$fileds = array()){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('grade s');
         $obj->addAndWhere('is_del=0');
+        $obj->addAndWhere('user_id='.$user_id);
         if($fileds){
             foreach($fileds as $key=>$item){
                 $obj->addAndWhere($key.'='.$item);
@@ -77,10 +80,10 @@ class Model_Grade extends \Model
         return $result;
     }
 
-    public static function upUserGrade($field,$value,$uid){
+    public static function upUserGrade($field,$value,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
 
-        return $obj->update('member s',[$field=>$value],'user_user_id='.$uid);
+        return $obj->update('member s',[$field=>$value],'user_user_id='.$user_user_id);
     }
 
     public static function getNextGrade($user_id,$current_grade){
@@ -112,12 +115,12 @@ class Model_Grade extends \Model
      */
     public static function promote($user_id,$user_user_id){
         //获取会员当前等级
-        $member_info = Model_Member::getMemberByUser($user_user_id);
+        $member_info = Model_Member::getMemberByUser($user_id,$user_user_id);
             /*未激活用户不参与晋升*/
         if($member_info[0]['status'] != 2)
             return 2;
 
-        $grade_info = self::getGradeByGrade($member_info[0]['grade']);
+        $grade_info = self::getGradeByGrade($member_info[0]['grade'],$user_id);
         /*说明此会员所对应的等级已被删除或处理，这时不做处理*/
         //if(!$grade_info)
             //return 3;
@@ -149,11 +152,11 @@ class Model_Grade extends \Model
         $up_grade = $obj->query(false);
 
             /*获取当前会员的下级总数*/
-        $lower_count = Model_Member::getLowerCount($user_user_id);
+        $lower_count = Model_Member::getLowerCount($user_id,$user_user_id);
             /*晋升数量规则 1:大于  2:大于等于*/
         if($up_grade['promote_lower_type'] == 1){
             if($lower_count > $up_grade['promote_lower_num']){
-                $payment_info = Model_PaymentRecord::getRecord(array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                $payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
                 $payment_count = count($payment_info);
                 if($payment_count > $lower_count){
                     //晋升
@@ -164,7 +167,7 @@ class Model_Grade extends \Model
         }
         if($up_grade['promote_lower_type'] == 2){
             if($lower_count >= $up_grade['promote_lower_num']){
-                $payment_info = Model_PaymentRecord::getRecord(array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                $payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
                 $payment_count = count($payment_info);
                 if($payment_count >= $lower_count){
                     //晋升

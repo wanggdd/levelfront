@@ -28,6 +28,9 @@
     </div>
         <input type="hidden" name="year" id="form_year" value="<{$year}>">
         <input type="hidden" name="month" id="form_month" value="<{$month}>">
+        <input type="hidden" name="zz_userid" value="<{$zz_userid}>">
+        <input type="hidden" name="username" value="<{$username}>">
+        <input type="hidden" name="wap" value="1">
     </form>
     <div class="container">
         <div class="tab">
@@ -44,7 +47,7 @@
             <div class="list active">
                 <{if $out_record}>
                     <{foreach key=key item=item from=$out_record}>
-                        <div class="item" onclick="location='/dom/NineFenXiao/out.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>';">
+                        <div class="item" onclick="location='/dom/NineFenXiao/out.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>&usernmae=<{$username}>&wap=1';">
                             <div class="avatar">
                                 <img class="avatar__img" src="<{$item.pic}>" alt="">
                             </div>
@@ -63,7 +66,7 @@
             <div class="list">
                 <{if $enter_record}>
                     <{foreach key=key item=item from=$enter_record}>
-                    <div class="item" onclick="location='/dom/NineFenXiao/enter.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>';">
+                    <div class="item" onclick="location='/dom/NineFenXiao/enter.php?zz_userid=<{$zz_userid}>&id=<{$item.id}>&usernmae=<{$username}>&wap=1';">
                         <div class="avatar">
                             <img class="avatar__img" src="<{$item.pic}>" alt="">
                         </div>

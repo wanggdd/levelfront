@@ -6,12 +6,10 @@ class Model_PaymentRecord extends \Model
 {
 
     //获取待收款列表
-    public static function getWaitEnterList($user_id = 0){
-        if(!$user_id)
-            return false;
+    public static function getWaitEnterList($user_id,$user_user_id){
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $sql = 'select * from payment_record where enter_member='.$user_id.' and (status=1 or status=3) and is_del=0';
+        $sql = 'select * from payment_record where user_id='.$user_id.' enter_member='.$user_user_id.' and (status=1 or status=3) and is_del=0';
 
         //return $obj->sqlQuery(false);
         return $obj->sqlQuery($sql,'get_results');
@@ -21,20 +19,21 @@ class Model_PaymentRecord extends \Model
      * $fileds where条件
      * $enter 打款or收款  默认收款：true
      */
-    public static function getRecordAndSum($fileds = array(),$enter = true){
+    public static function getRecordAndSum($user_id,$fileds = array(),$enter = true){
         if(!$fileds)
             return false;
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record s');
 
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('status=2');
 
         if($enter){
-            $obj->addAndWhere('enter_member='.$fileds['user_id']);
+            $obj->addAndWhere('enter_member='.$fileds['member_id']);
         }else{
-            $obj->addAndWhere('out_member='.$fileds['user_id']);
+            $obj->addAndWhere('out_member='.$fileds['member_id']);
         }
         if($fileds['start_time'])
             $obj->addAndWhere('enter_time>='.$fileds['start_time']);
@@ -42,7 +41,7 @@ class Model_PaymentRecord extends \Model
             $obj->addAndWhere('enter_time<'.$fileds['end_time']);
 
         $record = $obj->query(false);
-
+//echo $obj->getSQL();echo '<br>';
         $sum_value = $obj->sum('payment_money','float');
         $sum = $sum_value ? $sum_value : '0.00';
 
@@ -50,9 +49,10 @@ class Model_PaymentRecord extends \Model
     }
 
     //获取记录
-    public static function getRecord($fileds = array()){
+    public static function getRecord($user_id,$fileds = array()){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record s');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('is_del=0');
         if($fileds){
             foreach($fileds as $key=>$item){
@@ -65,22 +65,24 @@ class Model_PaymentRecord extends \Model
         return $obj->query(false);
     }
 
-    public static function getActRecord($user_id){
+    public static function getActRecord($user_id,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('is_del=0');
-        $obj->addAndWhere('out_member='.$user_id);
+        $obj->addAndWhere('out_member='.$user_user_id);
         $obj->addAndWhere('payment_type=2');
         $obj->addAndWhere('(status=1');
         $obj->addOrWhere('status=3)');
         return $obj->count();
     }
 
-    public static function getActFinishRecord($user_id){
+    public static function getActFinishRecord($user_id,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('is_del=0');
-        $obj->addAndWhere('out_member='.$user_id);
+        $obj->addAndWhere('out_member='.$user_user_id);
         $obj->addAndWhere('payment_type=2');
         $obj->addAndWhere('status=2');
         return $obj->count();
@@ -114,11 +116,12 @@ class Model_PaymentRecord extends \Model
      * @param $user_id
      * @param int $status
      */
-    public static function getWaitPayRecord($user_id,$status=0){
+    public static function getWaitPayRecord($user_id,$user_user_id,$status=0){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('payment_record p');
+        $obj->addAndWhere('user_id='.$user_id);
         $obj->addAndWhere('is_del=0');
-        $obj->addAndWhere('enter_member='.$user_id);
+        $obj->addAndWhere('enter_member='.$user_user_id);
         $obj->addAndWhere('(status=1');
         $obj->addOrWhere('status=3)');
         return $obj->count();

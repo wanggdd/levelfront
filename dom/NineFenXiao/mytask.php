@@ -11,7 +11,7 @@ use Model\WebPlugin\Model_Member;
 use Model\WebPlugin\Model_PaymentRecord;
 use Model\WebPlugin\Model_Task;
 
-$memberinfo = Model_Member::getMemberByUser($userid);
+$memberinfo = Model_Member::getMemberByUser($uid,$userid);
 //打款记录
 if(!$memberinfo){
     die('no user');
@@ -20,8 +20,8 @@ $status = $memberinfo[0]['status'];
 $higher_id = $memberinfo[0]['higher_id'];
 $wait_pay_record = 0;
 if($status == 1){
-  $wait_pay_record_count = Model_PaymentRecord::getActRecord($userid);
-  $act_finish_count = Model_PaymentRecord::getActFinishRecord($userid);
+  $wait_pay_record_count = Model_PaymentRecord::getActRecord($uid,$userid);
+  $act_finish_count = Model_PaymentRecord::getActFinishRecord($uid,$userid);
   if($act_finish_count>=2){
       $wait_pay_record = 0;
   }else{
@@ -48,9 +48,10 @@ if($status == 1){
 }
 
 //待收款记录
-$reward_record = Model_PaymentRecord::getWaitPayRecord($userid);
+$reward_record = Model_PaymentRecord::getWaitPayRecord($uid,$userid);
 
 $smarty->assign('pay_record',$wait_pay_record);
 $smarty->assign('reward_record',$reward_record);
 $smarty->assign('zz_userid',$userid);
+$smarty->assign('username',$username);
 $smarty->display('other/await.tpl');

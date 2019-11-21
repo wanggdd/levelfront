@@ -13,7 +13,7 @@ class Model_Task extends \Model
     public static function getThree($user_id,$user_user_id){
         $return = array();
         //先获取当前会员的等级
-        $member = Model_Member::getMemberByUser($user_user_id);
+        $member = Model_Member::getMemberByUser($user_id,$user_user_id);
         if(!$member[0]['higher_id'])
             return $return;
         $grade_id = $member[0]['grade'];
@@ -37,14 +37,14 @@ class Model_Task extends \Model
 
             //往上查3层，是否有等级是上一级的会员
             $task_member = array();
-            $member1 = Model_Member::getInfoByGradeId($member[0]['higher_id'],$up_info['id']);
+            $member1 = Model_Member::getInfoByGradeId($user_id,$member[0]['higher_id'],$up_info['id']);
             if(!$member1){
-                $member2 = Model_Member::getInfoByGradeId($member1['higher_id'],$up_info['id']);
+                $member2 = Model_Member::getInfoByGradeId($user_id,$member1['higher_id'],$up_info['id']);
                 if(!$member2){
-                    $member3 = Model_Member::getInfoByGradeId($member2['higher_id'],$up_info['id']);
+                    $member3 = Model_Member::getInfoByGradeId($user_id,$member2['higher_id'],$up_info['id']);
                     if(!$member3){
                         //没有时，取系统默认值
-                        $member4 = Model_Member::getMemberByUser($up_info['user_user_id']);
+                        $member4 = Model_Member::getMemberByUser($user_id,$up_info['user_user_id']);
                         if($member4)
                             $task_member = $member4[0];
                     }else{
@@ -59,14 +59,14 @@ class Model_Task extends \Model
 
             //查找获取到的user_id的用户名
             if($task_member){
-                $user_info = Model_User::getUserById($task_member['user_user_id']);
+                $user_info = Model_User::getUserById($user_id,$task_member['user_user_id']);
                 $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
                 $return['enter_member'] = $task_member['user_user_id'];
             }else{
                 //没有时，查找等级默认的人
-                $info = Model_Grade::getGrade(array('user_id'=>$user_id,'id'=>$up_info['id']));
+                $info = Model_Grade::getGrade($user_id,array('id'=>$up_info['id']));
                 if($info[0]['user_user_id']){
-                    $user_info = Model_User::getUserById($info[0]['user_user_id']);
+                    $user_info = Model_User::getUserById($user_id,$info[0]['user_user_id']);
                     $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
                     $return['enter_member'] = $task_member['user_user_id'];
                     //查找默认打款金额
@@ -87,15 +87,15 @@ class Model_Task extends \Model
      * @param $user_user_id int  当前会员ID
      */
     public function getNine($user_id,$user_user_id){
-        //获取系统当前最大等级
+        //获取系统当前等级的层数
         $max_grade = Model_Grade::getGradeCount($user_id);
         //当前用户的上级
-        $member = Model_Member::getMemberByUser($user_user_id);
+        $member = Model_Member::getMemberByUser($user_id,$user_user_id);
         $higher_id = $member[0]['higher_id'];
         $i = 1;
         $member_info = array();
         while($i <= $max_grade){
-            $info = $this->nineUser($higher_id);
+            $info = $this->nineUser($user_id,$higher_id);
             if(!$info){
                 break;
             }
@@ -114,7 +114,7 @@ class Model_Task extends \Model
         if($level == $max_grade){
             $return['out_member'] = $user_user_id;
             $return['enter_member'] = $member_info['user_user_id'];
-            $user_info = Model_User::getUserById($member_info['user_user_id']);
+            $user_info = Model_User::getUserById($user_id,$member_info['user_user_id']);
             $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
         }else{
             //var_dump($grade);exit;
@@ -122,7 +122,7 @@ class Model_Task extends \Model
             if($grade['user_user_id']){
                 $return['out_member']   = $user_user_id;
                 $return['enter_member'] = $grade['user_user_id'];
-                $user_info = Model_User::getUserById($grade['user_user_id']);
+                $user_info = Model_User::getUserById($user_id,$grade['user_user_id']);
                 $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
                 //查找默认打款金额
                 $setting_info = Model_Setting::getSetting($user_id);
@@ -136,8 +136,8 @@ class Model_Task extends \Model
     }
 
 
-    public function nineUser($higher_id){
-        $member = Model_Member::getMemberByUser($higher_id);
+    public function nineUser($user_id,$higher_id){
+        $member = Model_Member::getMemberByUser($user_id,$higher_id);
         if($member){
             return array('higher_id'=>$member[0]['higher_id'],'member_info'=>$member[0]);
         }else{

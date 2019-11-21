@@ -72,6 +72,8 @@
         <input type="hidden" name="task_grade" value="<{$page_info.task_grade}>">
         <input type="hidden" name="promote_money" value="<{$page_info.promote_money}>">
         <input type="hidden" name="enter_member" value="<{$page_info.enter_member}>">
+        <input type="hidden" name="username" value="<{$username}>">
+        <input type="hidden" name="wap" value="1">
         <button class="submit-btn center-block" type="submit">重新提交</button>
     </div>
 </form>

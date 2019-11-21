@@ -7,10 +7,12 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/public.php';
 
 use Model\WebPlugin\Model_PaymentRecord;
 
-$userid = $zz_userid;
+$uid = USER_ID;
+$userid = USER_USER_ID;
+$username = USER_USER_NAME;
 $nickname = USER_USER_NICK_NAME;
 $pid = $_GET['pid']?$_GET['pid']:$_POST['pid'];
-$records = Model_PaymentRecord::getRecord(array('id'=>$pid));
+$records = Model_PaymentRecord::getRecord($uid,array('id'=>$pid));
 $record_info = $records[0];
 if($userid!=$record_info['enter_member']){
     die('deny1');
@@ -24,13 +26,14 @@ if(!empty($_POST)){
         header('location:/dom/ninefenxiao/waitenter.php');
     }
 }
-$out_member = \Model\WebPlugin\Model_User::getUserById($record_info['out_member']);
+$out_member = \Model\WebPlugin\Model_User::getUserById($uid,$record_info['out_member']);
 $out_name = $out_member[0]['user_name'];
 //ÊÕ¿îÈË
-$enter_member = \Model\WebPlugin\Model_User::getUserById($record_info['enter_member']);
+$enter_member = \Model\WebPlugin\Model_User::getUserById($uid,$record_info['enter_member']);
 $enter_name = $enter_member[0]['user_name'];
 $smarty->assign('pid',$pid);
 $smarty->assign('user_id',$userid);
+$smarty->assign('username',$username);
 $smarty->assign('out_name',$out_name);
 $smarty->assign('enter_name',$enter_name);
 $smarty->assign('record',$record_info);

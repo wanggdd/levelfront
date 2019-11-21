@@ -14,7 +14,7 @@ $zz_userid = isset($_REQUEST['zz_userid']) ? (int)$_REQUEST['zz_userid'] : 0;
 
 $zz_user_info = [];
 if ($zz_userid) {
-    $user_info = Model_User::getUserById($zz_userid);
+    $user_info = Model_User::getUserById(USER_ID,$zz_userid);
     $zz_user_info = $user_info[0];
 
     /*$zz_user_info = [
@@ -36,6 +36,6 @@ if ($zz_userid) {
 }
 
 //获取member表信息
-$member = Model_Member::getMemberByUser(USER_USER_ID);
+$member = Model_Member::getMemberByUser(USER_ID,USER_USER_ID);
 $current_member = $member[0];
 //var_dump($current_member);exit;

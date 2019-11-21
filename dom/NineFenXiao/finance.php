@@ -7,7 +7,9 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/include/public.php';
 use Model\WebPlugin\Model_PaymentRecord;
 use Model\WebPlugin\Model_User;
 
+$uid = USER_ID;
 $userid = USER_USER_ID;
+$username = USER_USER_NAME;
 
 $year = $_POST['year'] ? $_POST['year'] : date("Y",time());
 $month = $_POST['month'] ? $_POST['month'] : date("m",time());
@@ -16,12 +18,12 @@ $start_time=mktime(0,0,0,$month,1,$year);
 $end_time=mktime(23,59,59,$month,date('t'),$year);
 
 //打款记录
-$out_info = Model_PaymentRecord::getRecordAndSum(array('user_id'=>$zz_user_info['id'],'start_time'=>$start_time,'end_time'=>$end_time),false);
+$out_info = Model_PaymentRecord::getRecordAndSum($uid,array('member_id'=>$userid,'start_time'=>$start_time,'end_time'=>$end_time),false);
 $out_record = $out_info['record'];
-$out_sum = $out_info['sum'];
+$out_sum = $out_info['sum'] ? $out_info['sum'] : '0.00';
 if($out_record){
     foreach ($out_record as $key=>$item){
-        $user_info = Model_User::getUserById($item['enter_member']);
+        $user_info = Model_User::getUserById($uid,$item['enter_member']);
         $out_record[$key]['enter_user'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
         $out_record[$key]['pic'] = $user_info[0]['pic'] ? $user_info[0]['pic'] : 'http://aimg8.dlszyht.net.cn/default/user_user_profile.jpg';
         if($item['payment_type'] == 1){
@@ -33,12 +35,12 @@ if($out_record){
 }
 
 //收款记录
-$enter_info = Model_PaymentRecord::getRecordAndSum(array('user_id'=>$zz_user_info['id'],'start_time'=>$start_time,'end_time'=>$end_time));
+$enter_info = Model_PaymentRecord::getRecordAndSum($uid,array('member_id'=>$userid,'start_time'=>$start_time,'end_time'=>$end_time));
 $enter_record = $enter_info['record'];
-$enter_sum = $enter_info['sum'];
+$enter_sum = $enter_info['sum'] ? $enter_info['sum'] : '0.00';
 if($enter_record){
     foreach ($enter_record as $key=>$item){
-        $user_info = Model_User::getUserById($item['out_member']);
+        $user_info = Model_User::getUserById($uid,$item['out_member']);
         $enter_record[$key]['enter_user'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
         $enter_record[$key]['pic'] = $user_info[0]['pic'] ? $user_info[0]['pic'] : 'http://aimg8.dlszyht.net.cn/default/user_user_profile.jpg';
         if($item['payment_type'] == 1){
@@ -58,4 +60,5 @@ $smarty->assign('enter_sum', $enter_sum);
 $smarty->assign('year', $year);
 $smarty->assign('month', $month);
 $smarty->assign('zz_userid', $userid);
+$smarty->assign('username',$username);
 $smarty->display('pay/history.tpl');
