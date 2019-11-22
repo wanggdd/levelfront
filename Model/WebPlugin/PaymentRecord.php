@@ -131,4 +131,10 @@ class Model_PaymentRecord extends \Model
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         return $obj->insert('payment_record',$fileds);
     }
+
+    public static function getCount($user_id,$user_user_id){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $sql = 'select count(distinct out_member) as num from payment_record where user_id='.$user_id.' and enter_member='.$user_user_id.' and status=2 and payment_type=1 and is_del=0';
+        return $obj->sqlQuery($sql,'get_row');
+    }
 }

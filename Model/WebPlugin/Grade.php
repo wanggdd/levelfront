@@ -154,11 +154,14 @@ class Model_Grade extends \Model
             /*获取当前会员的下级总数*/
         $lower_count = Model_Member::getLowerCount($user_id,$user_user_id);
             /*晋升数量规则 1:大于  2:大于等于*/
+        //查找payment_record中成交的记录数
+        $people_num = Model_Paymentrecord::getCount($user_id,$user_user_id);
+
         if($up_grade['promote_lower_type'] == 1){
             if($lower_count > $up_grade['promote_lower_num']){
-                $payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
-                $payment_count = count($payment_info);
-                if($payment_count > $lower_count){
+                //$payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                //$payment_count = count($payment_info);
+                if($people_num['num'] > $lower_count){
                     //晋升
                     self::upUserGrade('grade',$up_grade['id'],$user_user_id);
                     return 1;
@@ -167,9 +170,9 @@ class Model_Grade extends \Model
         }
         if($up_grade['promote_lower_type'] == 2){
             if($lower_count >= $up_grade['promote_lower_num']){
-                $payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
-                $payment_count = count($payment_info);
-                if($payment_count >= $lower_count){
+                //$payment_info = Model_PaymentRecord::getRecord($user_id,array('status'=>2,'payment_type'=>1,'enter_member'=>$user_user_id));
+                //$payment_count = count($payment_info);
+                if($people_num['num'] >= $lower_count){
                     //晋升
                     self::upUserGrade('grade',$up_grade['id'],$user_user_id);
                     return 1;
