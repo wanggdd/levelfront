@@ -80,12 +80,12 @@ class Model_Member extends \Model
         return true;
     }
 
-    //通过grade_id查找会员
-    public static function getInfoByGradeId($user_id,$user_user_id,$grade_id){
+    //通过grade_ids查找会员
+    public static function getInfoByGrades($user_id,$user_user_id,$grade_ids){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
         $obj->from('member s');
         $obj->addAndWhere('user_id='.$user_id);
-        $obj->addAndWhere('user_user_id='.$user_user_id.' and grade='.$grade_id);
+        $obj->addAndWhere('user_user_id='.$user_user_id.' and grade in('.$grade_ids.')');
         $result = $obj->query(false);
         //echo $obj->getSql();
         if($result)

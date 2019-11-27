@@ -16,69 +16,62 @@ class Model_Task extends \Model
         $member = Model_Member::getMemberByUser($user_id,$user_user_id);
         if(!$member[0]['higher_id'])
             return $return;
-        $grade_id = $member[0]['grade'];
-        //$grade_info = Model_Grade::getGradeByGrade($grade_id);
-        //if($grade_info){
-            $current_grade = $grade_id;
-            //当前无等级时，获得最低等级
-            $max_grade = Model_Grade::getMaximumGrade($user_id);
-            if($current_grade == $max_grade['id']){
-                $up_info = $max_grade;
-            }else{
-                //获取当前等级紧挨的上一级
-                $up_info = Model_Grade::getNextGrade($user_id,$current_grade);
-            }
+        $current_grade = $member[0]['grade'];
 
-            $return['promote_money']    = $up_info['promote_money'];
-            $return['grade_title']      = '升级'.$up_info['title'].'任务';
+        //获得当前等级的排序值
+        $current_info = Model_Grade::getGradeByGrade($current_grade,$user_id);
+        //获得所有大于当前等级的等级组合
+        $up_info = Model_Grade::getNextGrades($user_id,$current_info['grade']);
+        if(!$up_info)
+            return $return;
+
+        $grade_ids = '';
+        foreach($up_info as $key=>$item){
+            $grade_ids .= $grade_ids ? ','.$item['id'] : $item['id'];
+        }
+
+        //往上查3层，是否有等级大于当前等级的会员
+        $task_member = array();
+        $member1 = Model_Member::getInfoByGrades($user_id,$member[0]['higher_id'],$grade_ids);
+        if(!$member1){
+            $member2 = Model_Member::getInfoByGrades($user_id,$member1['higher_id'],$grade_ids);
+            if(!$member2){
+                $member3 = Model_Member::getInfoByGrades($user_id,$member2['higher_id'],$grade_ids);
+                if(!$member3){
+                    //没有时，取系统默认值
+                    $sys_up = Model_Grade::getNextGrade($user_id,$current_info['grade']);
+                    $member4 = Model_Member::getMemberByUser($user_id,$sys_up['user_user_id']);
+                    if($member4)
+                        $task_member = $member4[0];
+
+                }else{
+                    $task_member = $member3;
+                }
+            }else{
+                $task_member = $member2;
+            }
+        }else{
+            $task_member = $member1;
+        }
+
+        //查找获取到的user_id的用户名
+        if($task_member){
+            $user_info = Model_User::getUserById($user_id,$task_member['user_user_id']);
+            $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
+            $return['enter_member'] = $task_member['user_user_id'];
+
+            //等级信息
+            $last_grade = Model_Grade::getGradeByGrade($task_member['grade'],$user_id);
+            $return['promote_money']    = $last_grade['promote_money'];
+            $return['grade_title']      = '升级'.$last_grade['title'].'任务';
             $return['promote_type']     = 2;
             $return['out_member']       = $user_user_id;
-            $return['task_grade']       = $up_info['id'];
+            $return['task_grade']       = $last_grade['id'];
 
-            //往上查3层，是否有等级是上一级的会员
-            $task_member = array();
-            $member1 = Model_Member::getInfoByGradeId($user_id,$member[0]['higher_id'],$up_info['id']);
-            if(!$member1){
-                $member2 = Model_Member::getInfoByGradeId($user_id,$member1['higher_id'],$up_info['id']);
-                if(!$member2){
-                    $member3 = Model_Member::getInfoByGradeId($user_id,$member2['higher_id'],$up_info['id']);
-                    if(!$member3){
-                        //没有时，取系统默认值
-                        $member4 = Model_Member::getMemberByUser($user_id,$up_info['user_user_id']);
-                        if($member4)
-                            $task_member = $member4[0];
-                    }else{
-                        $task_member = $member3;
-                    }
-                }else{
-                    $task_member = $member2;
-                }
-            }else{
-                $task_member = $member1;
-            }
-
-            //查找获取到的user_id的用户名
-            if($task_member){
-                $user_info = Model_User::getUserById($user_id,$task_member['user_user_id']);
-                $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
-                $return['enter_member'] = $task_member['user_user_id'];
-            }else{
-                //没有时，查找等级默认的人
-                $info = Model_Grade::getGrade($user_id,array('id'=>$up_info['id']));
-                if($info[0]['user_user_id']){
-                    $user_info = Model_User::getUserById($user_id,$info[0]['user_user_id']);
-                    $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
-                    $return['enter_member'] = $task_member['user_user_id'];
-                    //查找默认打款金额
-                    $setting_info = Model_Setting::getSetting($user_id);
-                    $money = $setting_info['noactive_active_money'];
-                    $return['promote_money'] = $money;
-                }
-
-            }
-            //$return['task_member'] = $task_member;
-            return $return;
-        //}
+        }
+        //$return['task_member'] = $task_member;
+        var_dump($return);exit;
+        return $return;
     }
 
     //未激活的人的第九层级，若上面没有九层，就给系统设置的最高等级的默认会员打

@@ -80,6 +80,14 @@ class Model_Grade extends \Model
         return $result;
     }
 
+    //获取等级组合
+    public static function getGradeBySql($where = ''){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+
+        return $obj->sqlQuery($where,'get_results');
+    }
+
     public static function upUserGrade($field,$value,$user_user_id){
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
 
@@ -93,6 +101,18 @@ class Model_Grade extends \Model
         $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
         $obj->addOrderBy('grade','asc');
         $obj->setLimiter(0,1);
+        $result = $obj->query(false);
+
+        return $result;
+    }
+
+    public static function getNextGrades($user_id,$current_grade){
+        $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
+        $obj->from('grade s');
+        $obj->addAndWhere('is_del=0');
+        $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
+        $obj->addOrderBy('grade','asc');
+        //$obj->setLimiter(0,1);
         $result = $obj->query(false);
 
         return $result;
