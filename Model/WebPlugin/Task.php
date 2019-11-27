@@ -67,10 +67,7 @@ class Model_Task extends \Model
             $return['promote_type']     = 2;
             $return['out_member']       = $user_user_id;
             $return['task_grade']       = $last_grade['id'];
-
         }
-        //$return['task_member'] = $task_member;
-        var_dump($return);exit;
         return $return;
     }
 
