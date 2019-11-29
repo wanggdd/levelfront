@@ -112,7 +112,6 @@ class Model_Grade extends \Model
         $obj->addAndWhere('is_del=0');
         $obj->addAndWhere('user_id='.$user_id.' and grade>'.$current_grade);
         $obj->addOrderBy('grade','asc');
-        //$obj->setLimiter(0,1);
         $result = $obj->query(false);
 
         return $result;

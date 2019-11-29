@@ -5,54 +5,139 @@ namespace Model\WebPlugin;
 
 class Model_Task extends \Model
 {
-    //已经激活的人的任务列表(判断自己当前处于什么等级，找到大于自己等级的最近一级，向上查三层，是否有处于此等级的人。 若没有就给此等级的默认人打款)
+    //已经激活的人的任务列表
     /**
+     * 先获取当前会员要升级到的等级i,找第i层的人(就找第i层的人，中间不退出)，如果i层的会员>=i级，则给第i层的人打款。
+     * 若没有第i层直接给最高等级的初始会员打。
+     * 若有第i层，却不>=i级，则再向上找3层(遇见则停止)，一直到3层还没有符合的，则给最高等级的初始会员打
      * @param $user_id int  当前网站所属ID
      * @param $user_user_id int  当前会员ID
      */
-    public static function getThree($user_id,$user_user_id){
+    public function getThree($user_id,$user_user_id){
         $return = array();
+        $task_member = array();
         //先获取当前会员的等级
         $member = Model_Member::getMemberByUser($user_id,$user_user_id);
         if(!$member[0]['higher_id'])
             return $return;
-        $current_grade = $member[0]['grade'];
+        $current_grade = $member[0]['grade'];//此数值是grade的主键
 
-        //获得当前等级的排序值
+        //获取最高等级
+        $max_grade = Model_Grade::getMaximumGrade($user_id,'desc');
+        if($current_grade == $max_grade)//当前是最高等级时，返回
+            return $return;
+
+        /* --------------以下逻辑，是在排序值=等级，且1-9级，中间无断层的前提进行的-------------- */
         $current_info = Model_Grade::getGradeByGrade($current_grade,$user_id);
+        $next_grade = Model_Grade::getNextGrade($user_id,$current_info['grade']);
+
         //获得所有大于当前等级的等级组合
         $up_info = Model_Grade::getNextGrades($user_id,$current_info['grade']);
         if(!$up_info)
             return $return;
 
-        $grade_ids = '';
+        $grade_ids = array();
         foreach($up_info as $key=>$item){
-            $grade_ids .= $grade_ids ? ','.$item['id'] : $item['id'];
+            $grade_ids[] = $item['id'];
         }
 
-        //往上查3层，是否有等级大于当前等级的会员
-        $task_member = array();
-        $member1 = Model_Member::getInfoByGrades($user_id,$member[0]['higher_id'],$grade_ids);
-        if(!$member1){
-            $member2 = Model_Member::getInfoByGrades($user_id,$member1['higher_id'],$grade_ids);
-            if(!$member2){
-                $member3 = Model_Member::getInfoByGrades($user_id,$member2['higher_id'],$grade_ids);
-                if(!$member3){
-                    //没有时，取系统默认值
-                    $sys_up = Model_Grade::getNextGrade($user_id,$current_info['grade']);
-                    $member4 = Model_Member::getMemberByUser($user_id,$sys_up['user_user_id']);
-                    if($member4)
-                        $task_member = $member4[0];
-
-                }else{
-                    $task_member = $member3;
-                }
+        $i = 1;
+        $member_info = array();
+        $higher_id = $member[0]['higher_id'];
+        while($i <= $next_grade['grade']){
+            $info = $this->nineUser($user_id,$higher_id);
+            if(!$info){
+                break;
+            }
+            $member_info = $info['member_info'];
+            $higher_id = $info['higher_id'];
+            $i++;
+        }
+        $level = $i-1;
+        //找到了上层第i层的会员
+        if($level == $next_grade['grade']){
+            //判断此会员是否>=上一级
+            if(in_array($member_info['grade'],$grade_ids)){
+                $task_member = $member_info;
             }else{
-                $task_member = $member2;
+                //再向上找3层
+                $member1 = Model_Member::getMemberByUser($user_id,$member_info['higher_id']);
+                if(!$member1)
+                    return $return;
+
+                if(in_array($member1[0]['grade'],$grade_ids)){
+                    $task_member = $member1[0];
+                }else{
+                    $member2 = Model_Member::getMemberByUser($user_id,$member1[0]['higher_id']);
+                    if(!$member2)
+                        return $return;
+
+                    if(in_array($member2[0]['grade'],$grade_ids)){
+                        $task_member = $member2[0];
+                    }else{
+                        $member3 = Model_Member::getMemberByUser($user_id,$member2[0]['higher_id']);
+                        if(!$member3)
+                            return $return;
+
+                        if(in_array($member3[0]['grade'],$grade_ids)) {
+                            $task_member = $member3[0];
+                        }else{
+                            //找最高等级的初始会员
+                            $member4 = Model_Member::getMemberByUser($user_id,$max_grade['user_user_id']);
+                            if(!$member4)
+                                return $return;
+
+                            $task_member = $member4[0];
+                        }
+                    }
+
+                }
             }
         }else{
-            $task_member = $member1;
+            //找最高等级的初始会员
+            $member4 = Model_Member::getMemberByUser($user_id,$max_grade['user_user_id']);
+            if(!$member4)
+                return $return;
+
+            $task_member = $member4[0];
         }
+        /* --------------以上逻辑，是在排序值=等级值的前提下进行的-------------- */
+
+
+
+        //往上查3层，是否有等级大于当前等级的会员
+        /*$task_member = array();
+        $member1 = Model_Member::getMemberByUser($user_id,$member[0]['higher_id']);
+        if(!$member1)
+            return $return;
+
+        if(in_array($member1[0]['grade'],$grade_ids)){
+            $task_member = $member1[0];
+        }else{
+            $member2 = Model_Member::getMemberByUser($user_id,$member1[0]['higher_id']);
+            if(!$member2)
+                return $return;
+
+            if(in_array($member2[0]['grade'],$grade_ids)){
+                $task_member = $member2[0];
+            }else{
+                $member3 = Model_Member::getMemberByUser($user_id,$member2[0]['higher_id']);
+                if(!$member3)
+                    return $return;
+
+                if(in_array($member3[0]['grade'],$grade_ids)) {
+                    $task_member = $member3[0];
+                }else{
+                    $sys_up = Model_Grade::getNextGrade($user_id,$current_info['grade']);
+                    $member4 = Model_Member::getMemberByUser($user_id,$sys_up['user_user_id']);
+                    if(!$member4)
+                        return $return;
+
+                    $task_member = $member4[0];
+                }
+            }
+
+        }*/
 
         //查找获取到的user_id的用户名
         if($task_member){
