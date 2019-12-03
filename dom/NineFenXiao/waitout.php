@@ -98,7 +98,7 @@ if($status == 2){
     $task_list = Model_Task::getThree($uid,$userid);
     if($task_list){
         $info = Model_PaymentRecord::getRecord($uid,
-            array('out_member'=>$task_list['out_member'],'enter_member'=>$task_list['enter_member'],'task_grade'=>$task_list['task_grade'],'user_id'=>$uid)
+            array('out_member'=>$task_list['out_member'],'enter_member'=>$task_list['enter_member'],'payment_type'=>1,'task_grade'=>$task_list['task_grade'],'user_id'=>$uid)
         );
         //证明此任务已经在payment表里了，肯定已经做过相关操作
         if($info){

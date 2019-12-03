@@ -149,7 +149,7 @@ class Model_Task extends \Model
             $last_grade = Model_Grade::getGradeByGrade($task_member['grade'],$user_id);
             $return['promote_money']    = $last_grade['promote_money'];
             $return['grade_title']      = '升级'.$last_grade['title'].'任务';
-            $return['promote_type']     = 2;
+            $return['promote_type']     = 1;
             $return['out_member']       = $user_user_id;
             $return['task_grade']       = $last_grade['id'];
         }
@@ -178,22 +178,31 @@ class Model_Task extends \Model
             $higher_id = $info['higher_id'];
             $i++;
         }
-
-        $grade = Model_Grade::getMaximumGrade($user_id);
         $level = $i-1;
         $return = array();
+        $exist = false;
         $return['promote_type']     = 2;
         $return['task_grade']       = 2;
-        $return['promote_money']    = $grade[0]['promote_money'];
         $return['status_title']     = '待打款';
         if($level == $max_grade){
             $return['out_member'] = $user_user_id;
             $return['enter_member'] = $member_info['user_user_id'];
             $user_info = Model_User::getUserById($user_id,$member_info['user_user_id']);
             $return['nick_name'] = $user_info[0]['nick_name'] ? $user_info[0]['nick_name'] : $user_info[0]['user_name'];
+            //获取等级信息
+            if($member_info['grade']){
+                $last_grade = Model_Grade::getGradeByGrade($member_info['grade'],$user_id);
+                $return['promote_money']    = $last_grade['promote_money'];
+            }else{
+                $exist = true;
+            }
         }else{
-            //var_dump($grade);exit;
+            $exist = true;
+        }
+
+        if($exist){
             //没有查到第九层，则找默认的人
+            $grade = Model_Grade::getMaximumGrade($user_id);
             if($grade['user_user_id']){
                 $return['out_member']   = $user_user_id;
                 $return['enter_member'] = $grade['user_user_id'];
@@ -203,10 +212,9 @@ class Model_Task extends \Model
                 $setting_info = Model_Setting::getSetting($user_id);
                 $money = $setting_info['noactive_active_money'];
                 $return['promote_money'] = $money;
-            }else{
-                return false;
             }
         }
+
         return $return;
     }
 

@@ -9,7 +9,7 @@ class Model_PaymentRecord extends \Model
     public static function getWaitEnterList($user_id,$user_user_id){
 
         $obj = \Factory::N('DBHelper', \Ebase::getDb('DB_Pluginl'));
-        $sql = 'select * from payment_record where user_id='.$user_id.' enter_member='.$user_user_id.' and (status=1 or status=3) and is_del=0';
+        $sql = 'select * from payment_record where user_id='.$user_id.' and enter_member='.$user_user_id.' and (status=1 or status=3) and is_del=0';
 
         //return $obj->sqlQuery(false);
         return $obj->sqlQuery($sql,'get_results');
